@@ -2,11 +2,103 @@
 
 body {
     font-family: 'Zen Kurenaido', sans-serif;
+    background-color: #fff;
 }
 
-header {
+.background-img-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    opacity: .8;
+    background: #ddd;
+}
+
+.background-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 2s ease-out;
+}
+
+.header {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 1.8rem;
+    background-color: #ffffff9e;
+    border-radius: 10px;
+}
+
+.title h1 {
+    font-size: 3.2rem;
+    transition: opacity 2s;
+}
+
+.title p {
+    font-size: 1rem;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    gap: 8rem;
+    margin-top: 2rem;
+}
+
+.link a {
+    text-decoration: none;
+    border-bottom: 0;
+    color: #333;
+    font-size: 1.2rem;
+    transition: all .5s;
+}
+
+.link a:hover {
+    color: #777;
+}
+
+.bottom-angle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform :translateX(-50%);
+    width: 100vw;
+    text-align: center;
+    background: linear-gradient(0deg, #fff, 70%, rgba(0, 0, 0, 0));
+}
+
+.bottom-angle p {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+.main {
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    width: 100vw;
+    margin-top: 3rem;
+}
+
+.article {
+    margin-left: .5rem;
+    margin-bottom: 2rem;
+}
+
+.article h2 {
+    margin-left: .5rem;
+}
+
+.article p {
+    margin-left: 1.4rem;
 }
