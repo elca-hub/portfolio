@@ -17,9 +17,7 @@ export default function Window({
 
   const handleClose = () => {
     setIsClosed(true);
-    if (onClose) {
-      onClose();
-    }
+    onClose();
   };
 
   const handleMinimize = () => {

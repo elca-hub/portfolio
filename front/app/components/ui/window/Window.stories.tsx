@@ -1,54 +1,43 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Window from './Window';
 
-import { expect, within, userEvent } from "storybook/test"
+import { expect, within, userEvent, fn } from "storybook/test"
 
 const meta: Meta<typeof Window> = {
   title: 'Components/ui/Window',
   component: Window,
+  args: {
+    title: 'ウインドウのタイトル',
+    children: <div>WindowContent</div>,
+    onClose: fn(),
+  },
 };
 
 export default meta;
 
 export const Default: StoryObj<typeof Window> = {
-  args: {
-    title: 'ウインドウのタイトル',
-    children: <div>WindowContent</div>,
-    onClose: () => {
-      console.log('ウインドウを閉じました');
-    },
-  },
 };
 
 export const MinimizeTest: StoryObj<typeof Window> = {
-  args: {
-    title: '最小化テスト',
-    children: <div className="text-white p-4">このウィンドウは最小化ボタンで非表示になります</div>,
-    onClose: () => {
-      console.log('ウインドウを閉じました');
-    },
+  play: async ({ canvas }) => {
+    const buttons = canvas.getAllByRole('button');
+    const minimizeButton = buttons[1];
+
+    await userEvent.click(minimizeButton);
+
+    expect(canvas.queryByText('ウインドウのタイトル')).not.toBeInTheDocument();
   },
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+};
 
-    await step('最小化ボタンをクリックする', async () => {
-      // すべてのボタンを取得（react-aria-componentsのButtonはrole="button"を持つ）
-      const buttons = canvas.getAllByRole('button');
-      // 2番目のボタンがminimizeボタン（黄色のボタン）
-      const minimizeButton = buttons[1];
+export const CloseTest: StoryObj<typeof Window> = {
+  play: async ({ canvas, args }) => {
+    const buttons = canvas.getAllByRole('button');
+    const closeButton = buttons[0];
 
-      // ウィンドウが表示されていることを確認
-      const windowElement = canvasElement.querySelector('.bg-gray-800');
-      expect(windowElement).toBeInTheDocument();
+    await userEvent.click(closeButton);
 
-      // 最小化ボタンをクリック
-      await userEvent.click(minimizeButton);
-    });
+    expect(canvas.queryByText('ウインドウのタイトル')).not.toBeInTheDocument();
 
-    await step('ウィンドウが非表示になったことを確認する', async () => {
-      // ウィンドウ要素が存在しないことを確認（nullが返される）
-      const windowElement = canvasElement.querySelector('.bg-gray-800');
-      expect(windowElement).not.toBeInTheDocument();
-    });
+    expect(args.onClose).toHaveBeenCalled();
   },
 };
