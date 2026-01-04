@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { BIZ_UDGothic } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 
-const bizUdgothic = BIZ_UDGothic({
-  variable: "--font-biz-udgothic",
+const notoSansJP = Noto_Sans_JP({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -21,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${bizUdgothic.variable} antialiased`}
+        className={`${notoSansJP.variable} antialiased`}
       >
         {children}
       </body>
