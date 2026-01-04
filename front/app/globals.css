@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+body {
+  font-family: var(--font-biz-udgothic), Helvetica, sans-serif;
+  margin: 0;
+}
