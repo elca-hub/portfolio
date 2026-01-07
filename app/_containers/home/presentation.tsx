@@ -61,6 +61,19 @@ export default function HomePresentation() {
 		setWindows([...windows, app])
 	}
 
+	const sortWindowsByApp = (app: AppType) => {
+		// アクティブでないアプリの場合は何もしない
+		if (!windows.some((window) => window.title === app.title)) return
+
+		setWindows((prev) => {
+			const target = prev.find((w) => w.title === app.title)
+			if (!target) return prev
+			const others = prev.filter((w) => w.title !== app.title)
+			// ホバー / 長押しされたウインドウを一番上（配列の末尾）に移動
+			return [...others, target]
+		})
+	}
+
 	const handleCloseWindow = (title: string) => {
 		setWindows(windows.filter((window) => window.title !== title))
 	}
@@ -78,6 +91,7 @@ export default function HomePresentation() {
 				<Dock
 					activeApps={windows}
 					onClick={openWindow}
+					onHoverSort={sortWindowsByApp}
 				/>
 			</div>
 		</>

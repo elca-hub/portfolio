@@ -1,7 +1,7 @@
 'use client'
 
 import Apps, { AppType } from '@/const/apps'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { GrAppsRounded } from 'react-icons/gr'
 
 /**
@@ -18,11 +18,31 @@ interface DockProps {
 	 * クリックされたアプリを親コンポーネントで制御するためのハンドラ
 	 */
 	onClick: (app: AppType) => void
+	/**
+	 * ホバー / 長押しでウインドウの順番を変えるためのハンドラ
+	 */
+	onHoverSort?: (app: AppType) => void
 	className?: string
 }
 
-export default function Dock({ activeApps, onClick, className = '' }: DockProps) {
+export default function Dock({ activeApps, onClick, onHoverSort, className = '' }: DockProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+	const startLongPress = (app: AppType) => {
+		if (!onHoverSort) return
+		// スマホでの長押し検知（約 400ms）
+		longPressTimerRef.current = setTimeout(() => {
+			onHoverSort(app)
+		}, 400)
+	}
+
+	const cancelLongPress = () => {
+		if (longPressTimerRef.current) {
+			clearTimeout(longPressTimerRef.current)
+			longPressTimerRef.current = null
+		}
+	}
 
 	return (
 		<div className={`relative inline-flex items-end gap-2 px-4 py-3 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg ${className}`}>
@@ -32,6 +52,10 @@ export default function Dock({ activeApps, onClick, className = '' }: DockProps)
 					<button
 						key={index}
 						onClick={() => onClick(app)}
+						onMouseEnter={() => onHoverSort?.(app)}
+						onTouchStart={() => startLongPress(app)}
+						onTouchEnd={cancelLongPress}
+						onTouchCancel={cancelLongPress}
 						className="group relative flex flex-col items-center justify-center p-2 transition-all duration-300 hover:scale-150 hover:z-10"
 						aria-label={app.title || `Dock item ${index + 1}`}
 					>
