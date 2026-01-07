@@ -1,21 +1,18 @@
+import type { AppType } from '@/const/apps'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { FiFolder, FiHome, FiImage, FiMail, FiMusic, FiSearch, FiSettings, FiUser, FiVideo } from 'react-icons/fi'
+import { FiFolder, FiHome, FiMail, FiSearch, FiSettings, FiUser } from 'react-icons/fi'
 import Dock from './Dock'
 
 const meta: Meta<typeof Dock> = {
 	title: 'Components/ui/Dock',
 	component: Dock,
 	args: {
-		items: [
-			{ icon: FiHome, label: 'ホーム' },
-			{ icon: FiFolder, label: 'フォルダ' },
-			{ icon: FiSearch, label: '検索' },
-			{ icon: FiMail, label: 'メール' },
-			{ icon: FiImage, label: '画像' },
-			{ icon: FiMusic, label: '音楽' },
-			{ icon: FiVideo, label: '動画' },
-			{ icon: FiSettings, label: '設定' },
-		],
+		activeApps: [
+			{ title: 'ホーム', content: (() => null) as AppType['content'], redirectUrl: '/home', icon: FiHome },
+			{ title: 'フォルダ', content: (() => null) as AppType['content'], redirectUrl: '/folder', icon: FiFolder },
+			{ title: '検索', content: (() => null) as AppType['content'], redirectUrl: '/search', icon: FiSearch },
+		] as AppType[],
+		onClick: () => { },
 	},
 	decorators: [
 		(Story) => (
@@ -32,21 +29,23 @@ export const Default: StoryObj<typeof Dock> = {}
 
 export const WithActions: StoryObj<typeof Dock> = {
 	args: {
-		items: [
-			{ icon: FiHome, label: 'ホーム', onClick: () => alert('ホームがクリックされました') },
-			{ icon: FiFolder, label: 'フォルダ', onClick: () => alert('フォルダがクリックされました') },
-			{ icon: FiSearch, label: '検索', onClick: () => alert('検索がクリックされました') },
-			{ icon: FiMail, label: 'メール', onClick: () => alert('メールがクリックされました') },
-			{ icon: FiUser, label: 'ユーザー', onClick: () => alert('ユーザーがクリックされました') },
-		],
+		activeApps: [
+			{ title: 'ホーム', content: (() => null) as AppType['content'], redirectUrl: '/home', icon: FiHome },
+			{ title: 'フォルダ', content: (() => null) as AppType['content'], redirectUrl: '/folder', icon: FiFolder },
+			{ title: '検索', content: (() => null) as AppType['content'], redirectUrl: '/search', icon: FiSearch },
+			{ title: 'メール', content: (() => null) as AppType['content'], redirectUrl: '/mail', icon: FiMail },
+			{ title: 'ユーザー', content: (() => null) as AppType['content'], redirectUrl: '/user', icon: FiUser },
+		] as AppType[],
+		onClick: (app: AppType) => alert(`${app.title} がクリックされました`),
 	},
 }
 
 export const Minimal: StoryObj<typeof Dock> = {
 	args: {
-		items: [
-			{ icon: FiHome, label: 'ホーム' },
-			{ icon: FiSettings, label: '設定' },
-		],
+		activeApps: [
+			{ title: 'ホーム', content: (() => null) as AppType['content'], redirectUrl: '/home', icon: FiHome },
+			{ title: '設定', content: (() => null) as AppType['content'], redirectUrl: '/settings', icon: FiSettings },
+		] as AppType[],
+		onClick: () => { },
 	},
 }
