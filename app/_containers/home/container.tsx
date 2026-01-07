@@ -2,7 +2,7 @@
 
 import HomePresentation from './presentation'
 
-export default function HomeContainer() {
+export default async function HomeContainer() {
   return (
     <>
       <HomePresentation />
