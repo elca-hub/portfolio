@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import WindowButtons from './WindowButtons'
 
@@ -11,14 +11,17 @@ export default function Window({
 	onClose,
 	isMaximized = false,
 	redirectUrl,
+	onCopy,
 }: {
 	title: string
 	children: React.ReactNode
 	onClose?: () => void
 	isMaximized?: boolean
 	redirectUrl?: string
+	onCopy?: () => void
 }) {
 	const router = useRouter()
+	const searchParams = useSearchParams()
 	const [isHidden, setIsHidden] = useState(false)
 	const [isClosed, setIsClosed] = useState(false)
 
@@ -44,6 +47,21 @@ export default function Window({
 		}
 	}
 
+	const handleTitleClick = async () => {
+		const params = new URLSearchParams(searchParams.toString())
+		params.set('window', title)
+		const url = `${window.location.origin}/?${params.toString()}`
+
+		try {
+			await navigator.clipboard.writeText(url)
+			if (onCopy) {
+				onCopy()
+			}
+		} catch (error) {
+			console.error('Failed to copy to clipboard:', error)
+		}
+	}
+
 	if (isClosed) {
 		return null
 	}
@@ -64,7 +82,13 @@ export default function Window({
 					/>
 				</div>
 				<div className="flex items-center justify-center">
-					<h1 className="text-black dark:text-white text-2xl font-bold">{title}</h1>
+					<h1
+						onClick={handleTitleClick}
+						className="text-black dark:text-white text-2xl font-bold cursor-pointer hover:opacity-70 transition-opacity"
+						title="クリックしてURLをコピー"
+					>
+						{title}
+					</h1>
 				</div>
 			</div>
 			<motion.div

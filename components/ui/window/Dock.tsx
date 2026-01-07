@@ -121,7 +121,7 @@ export default function Dock({ activeApps, onClick, onReorder, className = '' }:
 			<div className="relative">
 				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
 					<AppIcon icon={<GrAppsRounded className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />} onPress={() => { }} />
-					<ModalOverlay className="absolute inset-0 bg-black/20 backdrop-blur-xl flex items-center justify-center">
+					<ModalOverlay className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
 						<Modal isDismissable>
 							<Dialog className="bg-black/20 border border-white/10 shadow-lg p-4 rounded-3xl min-w-[600px]">
 								<div className="flex items-center justify-between mb-4">
