@@ -32,8 +32,10 @@ export default function HomePresentation() {
 
 		const storedTitles = localStorage.getItem(STORAGE_KEY)
 		let restoredWindows: AppType[] = []
+		let hasStoredData = false
 
 		if (storedTitles) {
+			hasStoredData = true
 			try {
 				const titles: string[] = JSON.parse(storedTitles)
 				// タイトルからAppTypeを復元
@@ -45,8 +47,9 @@ export default function HomePresentation() {
 			}
 		}
 
-		// ローカルストレージに何もない場合はdefaultWindowsを使用
-		if (restoredWindows.length === 0) {
+		// ローカルストレージに何もない場合（初回アクセス時）のみdefaultWindowsを使用
+		// 空の配列が保存されている場合は、意図的に削除された状態として扱う
+		if (!hasStoredData && restoredWindows.length === 0) {
 			restoredWindows = defaultWindows
 		}
 
@@ -78,7 +81,7 @@ export default function HomePresentation() {
 
 	// windowsが変更されたらローカルストレージに保存
 	useEffect(() => {
-		if (typeof window === 'undefined' || windows.length === 0) return
+		if (typeof window === 'undefined') return
 
 		const titles = windows.map(w => w.title)
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(titles))
@@ -101,18 +104,24 @@ export default function HomePresentation() {
 
 	return (
 		<>
-			<div className='flex flex-col gap-4 items-center justify-center max-w-[1200px] mx-auto my-10'>
-				{windows.map((window) => (
-					<Window
-						key={window.title}
-						title={window.title}
-						onClose={() => handleCloseWindow(window.title)}
-						redirectUrl={window.redirectUrl}
-						onCopy={handleCopy}
-					>
-						<window.content />
-					</Window>
-				))}
+			<div className='flex flex-col gap-4 items-center justify-center max-w-[1200px] mx-auto my-10 min-h-[calc(100vh-200px)]'>
+				{windows.length === 0 ? (
+					<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
+						下のDockからアプリを開いてみましょう
+					</p>
+				) : (
+					windows.map((window) => (
+						<Window
+							key={window.title}
+							title={window.title}
+							onClose={() => handleCloseWindow(window.title)}
+							redirectUrl={window.redirectUrl}
+							onCopy={handleCopy}
+						>
+							<window.content />
+						</Window>
+					))
+				)}
 			</div>
 			<div className='absolute bottom-0 left-0 w-full flex items-center justify-center mb-10'>
 				<Notification isVisible={isCopied} message='URLをコピーしました' type="success" />
