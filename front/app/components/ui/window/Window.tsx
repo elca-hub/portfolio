@@ -14,6 +14,7 @@ export default function Window({
 }) {
   const [isHidden, setIsHidden] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
 
   const handleClose = () => {
     setIsClosed(true);
@@ -24,15 +25,23 @@ export default function Window({
     setIsHidden(!isHidden);
   };
 
+  const handleMaximize = () => {
+    setIsMaximized(!isMaximized);
+  }
+
   if (isClosed || isHidden) {
     return null;
   }
 
   return (
-    <div className="w-full h-full bg-gray-200 dark:bg-gray-800 p-2 rounded-lg">
+    <div className={`bg-gray-200 dark:bg-gray-800 p-2 rounded-lg ${isMaximized ? "absolute inset-0" : "w-full h-full"}`}>
       <div className="mb-4 grid grid-cols-3">
         <div>
-          <WindowButtons onClose={handleClose} onMinimize={handleMinimize} />
+          <WindowButtons
+            onClose={handleClose}
+            onMinimize={handleMinimize}
+            onMaximize={handleMaximize}
+          />
         </div>
         <div className="flex items-center justify-center">
           <h1 className="text-black dark:text-white text-2xl font-bold">{title}</h1>
