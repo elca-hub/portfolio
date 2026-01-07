@@ -1,17 +1,32 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import WindowButtons from './WindowButtons'
 
-export default function Window({ title, children, onClose }: { title: string; children: React.ReactNode; onClose: () => void }) {
+export default function Window({
+	title,
+	children,
+	onClose,
+	isMaximized = false,
+	redirectUrl,
+}: {
+	title: string
+	children: React.ReactNode
+	onClose?: () => void
+	isMaximized?: boolean
+	redirectUrl?: string
+}) {
+	const router = useRouter()
 	const [isHidden, setIsHidden] = useState(false)
 	const [isClosed, setIsClosed] = useState(false)
-	const [isMaximized, setIsMaximized] = useState(false)
 
 	const handleClose = () => {
 		setIsClosed(true)
-		onClose()
+		if (onClose) {
+			onClose()
+		}
 	}
 
 	const handleMinimize = () => {
@@ -19,7 +34,14 @@ export default function Window({ title, children, onClose }: { title: string; ch
 	}
 
 	const handleMaximize = () => {
-		setIsMaximized(!isMaximized)
+		if (isMaximized) {
+			router.push('/')
+			return
+		}
+		if (redirectUrl) {
+			router.push(redirectUrl)
+			return
+		}
 	}
 
 	if (isClosed) {

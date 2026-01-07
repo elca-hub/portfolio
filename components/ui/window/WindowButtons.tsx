@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Button } from 'react-aria-components'
 import { MdClose, MdOutlineCloseFullscreen, MdZoomInMap, MdZoomOutMap } from 'react-icons/md'
 
@@ -19,16 +18,13 @@ export default function WindowButtons({
 	const buttonIconStyle = 'text-gray-600 w-full h-full'
 	const buttonDisabledStyle = 'opacity-50 cursor-not-allowed pointer-events-none'
 
-	const [isMaximized, setIsMaximized] = useState(false)
-
-	const handleMaximize = () => {
-		setIsMaximized(!isMaximized)
-		onMaximize()
-	}
-
 	return (
 		<div className="inline-flex justify-start items-center gap-3 bg-gray-300 dark:bg-gray-600 p-2 rounded-full">
-			<Button className={`bg-red-400 ${buttonComponentStyle}`} onPress={onClose}>
+			<Button
+				className={`bg-red-400 ${buttonComponentStyle} ${!isEnabledMinimize && buttonDisabledStyle}`}
+				onPress={onClose}
+				isDisabled={!isEnabledMinimize}
+			>
 				<MdClose className={buttonIconStyle} />
 			</Button>
 			<Button
@@ -40,10 +36,10 @@ export default function WindowButtons({
 			</Button>
 			<Button
 				className={`bg-green-600 ${buttonComponentStyle} ${!isEnabledMaximize && buttonDisabledStyle}`}
-				onPress={handleMaximize}
+				onPress={onMaximize}
 				isDisabled={!isEnabledMaximize}
 			>
-				{isMaximized ? <MdZoomInMap className={buttonIconStyle} /> : <MdZoomOutMap className={buttonIconStyle} />}
+				{isEnabledMaximize && !isEnabledMinimize ? <MdZoomInMap className={buttonIconStyle} /> : <MdZoomOutMap className={buttonIconStyle} />}
 			</Button>
 		</div>
 	)
