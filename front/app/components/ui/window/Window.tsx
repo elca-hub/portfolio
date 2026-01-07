@@ -29,13 +29,13 @@ export default function Window({
   }
 
   return (
-    <div className="w-full h-full bg-gray-800 p-2 rounded-lg">
+    <div className="w-full h-full bg-gray-200 dark:bg-gray-800 p-2 rounded-lg">
       <div className="mb-4 grid grid-cols-3">
         <div>
           <WindowButtons onClose={handleClose} onMinimize={handleMinimize} />
         </div>
         <div className="flex items-center justify-center">
-          <h1 className="text-white text-2xl font-bold">{title}</h1>
+          <h1 className="text-black dark:text-white text-2xl font-bold">{title}</h1>
         </div>
       </div>
       {children}

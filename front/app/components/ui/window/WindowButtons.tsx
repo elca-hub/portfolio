@@ -12,7 +12,7 @@ export default function WindowButtons({
   const buttonIconStyle = "text-gray-600 w-full h-full";
 
   return (
-    <div className="inline-flex justify-start items-center gap-3 bg-gray-600 p-2 rounded-full">
+    <div className="inline-flex justify-start items-center gap-3 bg-gray-300 dark:bg-gray-600 p-2 rounded-full">
       <Button
         className={`bg-red-400 ${buttonComponentStyle}`}
         onPress={onClose}
