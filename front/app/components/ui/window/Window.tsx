@@ -41,6 +41,7 @@ export default function Window({
             onClose={handleClose}
             onMinimize={handleMinimize}
             onMaximize={handleMaximize}
+            isEnabledMinimize={!isMaximized}
           />
         </div>
         <div className="flex items-center justify-center">

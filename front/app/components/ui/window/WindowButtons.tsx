@@ -3,10 +3,12 @@ import { MdClose, MdOutlineCloseFullscreen, MdZoomOutMap, MdZoomInMap } from "re
 import { useState } from "react";
 
 export default function WindowButtons({
+  isEnabledMinimize,
   onClose,
   onMinimize,
   onMaximize
 }: {
+  isEnabledMinimize: boolean;
   onClose: () => void;
   onMinimize: () => void;
   onMaximize: () => void;
@@ -32,8 +34,9 @@ export default function WindowButtons({
         <MdClose className={buttonIconStyle} />
       </Button>
       <Button
-        className={`bg-yellow-400 ${buttonComponentStyle}`}
+        className={`bg-yellow-400 ${buttonComponentStyle} ${isEnabledMinimize ? "" : "opacity-50 cursor-not-allowed pointer-events-none"}`}
         onPress={onMinimize}
+        isDisabled={!isEnabledMinimize}
       >
         <MdOutlineCloseFullscreen className={buttonIconStyle} />
       </Button>
