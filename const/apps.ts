@@ -28,3 +28,15 @@ const Apps: Record<string, AppType> = {
 }
 
 export default Apps
+
+export type AppTypeWithOutContent = {
+  title: string
+  redirectUrl: string
+  icon: IconType
+}
+
+export const AppsWithOutContent: AppTypeWithOutContent[] = Object.values(Apps).map(app => ({
+  title: app.title,
+  redirectUrl: app.redirectUrl,
+  icon: app.icon,
+}))
