@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Window from './Window';
 
-import { expect, within, userEvent, fn } from "storybook/test"
+import { expect, userEvent, fn } from "storybook/test"
 
 const meta: Meta<typeof Window> = {
   title: 'Components/ui/Window',
