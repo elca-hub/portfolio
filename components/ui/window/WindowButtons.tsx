@@ -19,7 +19,7 @@ export default function WindowButtons({
 	const buttonDisabledStyle = 'opacity-50 cursor-not-allowed pointer-events-none'
 
 	return (
-		<div className="inline-flex justify-start items-center gap-3 bg-gray-300 dark:bg-gray-600 p-2 rounded-full">
+		<div className="inline-flex justify-start items-center gap-3 p-2 rounded-full bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg">
 			<Button
 				className={`bg-red-400 ${buttonComponentStyle} ${!isEnabledMinimize && buttonDisabledStyle}`}
 				onPress={onClose}

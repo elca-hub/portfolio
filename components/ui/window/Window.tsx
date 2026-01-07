@@ -49,7 +49,10 @@ export default function Window({
 	}
 
 	return (
-		<div className={`bg-gray-200 dark:bg-gray-800 p-2 rounded-lg ${isMaximized ? 'absolute inset-0' : 'w-full h-full'}`}>
+		<div
+			className={`relative p-4 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg ${isMaximized ? 'absolute top-0 left-0 w-full h-full' : 'w-full h-full'
+				}`}
+		>
 			<div className="mb-4 grid grid-cols-3">
 				<div>
 					<WindowButtons
@@ -76,7 +79,7 @@ export default function Window({
 					duration: 0.3,
 					ease: 'easeInOut',
 				}}
-				className="w-full h-full"
+				className="w-full h-full p-4 max-w-[1200px] mx-auto"
 			>
 				{children}
 			</motion.div>
