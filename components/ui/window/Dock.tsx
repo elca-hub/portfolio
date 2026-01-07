@@ -2,6 +2,7 @@
 
 import Apps, { AppType } from '@/const/apps'
 import { useRef, useState } from 'react'
+import { Button } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 
 /**
@@ -49,9 +50,9 @@ export default function Dock({ activeApps, onClick, onHoverSort, className = '' 
 			{activeApps.map((app, index) => {
 				const Icon = app.icon
 				return (
-					<button
+					<Button
 						key={index}
-						onClick={() => onClick(app)}
+						onPress={() => onClick(app)}
 						onMouseEnter={() => onHoverSort?.(app)}
 						onTouchStart={() => startLongPress(app)}
 						onTouchEnd={cancelLongPress}
@@ -62,14 +63,14 @@ export default function Dock({ activeApps, onClick, onHoverSort, className = '' 
 						<div className="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:bg-white/10">
 							<Icon className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />
 						</div>
-					</button>
+					</Button>
 				)
 			})}
 
 			{/* Apps 一覧ポップアップボタン */}
 			<div className="relative">
-				<button
-					onClick={() => setIsMenuOpen((prev) => !prev)}
+				<Button
+					onPress={() => setIsMenuOpen((prev) => !prev)}
 					className="group relative flex flex-col items-center justify-center p-2 transition-all duration-300 hover:scale-150 hover:z-10"
 					aria-label="すべてのアプリを表示"
 				>
@@ -78,7 +79,7 @@ export default function Dock({ activeApps, onClick, onHoverSort, className = '' 
 							<GrAppsRounded className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />
 						</span>
 					</div>
-				</button>
+				</Button>
 
 				{isMenuOpen && (
 					<div className="absolute bottom-full right-0 mb-3 px-3 py-2 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/20 shadow-2xl min-w-[180px]">
@@ -87,8 +88,8 @@ export default function Dock({ activeApps, onClick, onHoverSort, className = '' 
 								const Icon = app.icon
 								return (
 									<li key={index}>
-										<button
-											onClick={() => {
+										<Button
+											onPress={() => {
 												onClick(app)
 												setIsMenuOpen(false)
 											}}
@@ -98,7 +99,7 @@ export default function Dock({ activeApps, onClick, onHoverSort, className = '' 
 												<Icon className="w-4 h-4 text-white/90" />
 											</div>
 											<span className="text-sm text-white/90">{app.title}</span>
-										</button>
+										</Button>
 									</li>
 								)
 							})}
