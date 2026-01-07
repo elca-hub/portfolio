@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import WindowButtons from "./WindowButtons";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Window({
   title,
