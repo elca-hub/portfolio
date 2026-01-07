@@ -7,7 +7,6 @@ const meta: Meta<typeof Window> = {
 	args: {
 		title: 'ウインドウのタイトル',
 		children: <div>WindowContent</div>,
-		onClose: () => {},
 	},
 }
 
