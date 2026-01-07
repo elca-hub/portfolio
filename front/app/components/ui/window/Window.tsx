@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import WindowButtons from "./WindowButtons";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Window({
   title,
@@ -29,7 +30,7 @@ export default function Window({
     setIsMaximized(!isMaximized);
   }
 
-  if (isClosed || isHidden) {
+  if (isClosed) {
     return null;
   }
 
@@ -48,7 +49,22 @@ export default function Window({
           <h1 className="text-black dark:text-white text-2xl font-bold">{title}</h1>
         </div>
       </div>
-      {children}
+      <motion.div
+        initial={isHidden ? "hidden" : "visible"}
+        animate={isHidden ? "hidden" : "visible"}
+        exit="hidden"
+        variants={{
+          hidden: { height: 0, opacity: 0, y: -10 },
+          visible: { height: "auto", opacity: 1, y: 0 },
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
+        }}
+        className="w-full h-full"
+      >
+        {children}
+      </motion.div>
     </div>
   );
 }
