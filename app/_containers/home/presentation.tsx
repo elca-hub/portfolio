@@ -3,7 +3,10 @@
 import Dock from '@/components/ui/window/Dock'
 import Window from '@/components/ui/window/Window'
 import Apps, { AppType } from '@/const/apps'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+const STORAGE_KEY = 'activeWindows'
+
 /**
  * @package
  */
@@ -11,13 +14,46 @@ export default function HomePresentation() {
 
 
 	/*
-	cookieに何も登録されてなかった時のdefaultのウインドウ
+	ローカルストレージに何も登録されてなかった時のdefaultのウインドウ
 	*/
 	const defaultWindows = [
 		Apps.aboutMe,
 	]
 
-	let [windows, setWindows] = useState<AppType[]>(defaultWindows)
+	const [windows, setWindows] = useState<AppType[]>([])
+
+	// ローカルストレージからアクティブなウィンドウを読み込む
+	useEffect(() => {
+		if (typeof window === 'undefined') return
+
+		const storedTitles = localStorage.getItem(STORAGE_KEY)
+		if (storedTitles) {
+			try {
+				const titles: string[] = JSON.parse(storedTitles)
+				// タイトルからAppTypeを復元
+				const restoredWindows = titles
+					.map(title => Object.values(Apps).find(app => app.title === title))
+					.filter((app): app is AppType => app !== undefined)
+
+				if (restoredWindows.length > 0) {
+					setWindows(restoredWindows)
+					return
+				}
+			} catch (error) {
+				console.error('Failed to parse stored windows:', error)
+			}
+		}
+		// ローカルストレージに何もない場合はdefaultWindowsを使用
+		setWindows(defaultWindows)
+	}, [])
+
+	// windowsが変更されたらローカルストレージに保存
+	useEffect(() => {
+		if (typeof window === 'undefined' || windows.length === 0) return
+
+		const titles = windows.map(w => w.title)
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(titles))
+	}, [windows])
 
 	const openWindow = (app: AppType) => {
 		// 同じタイトルのウインドウがすでにあれば追加しない
