@@ -105,28 +105,30 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 
 	return (
 		<>
-			<div className='flex flex-col gap-4 items-center justify-center max-w-[1200px] mx-auto my-10 min-h-[calc(100vh-200px)]'>
-				{isInitialLoad ? (
-					<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
-						読み込み中...
-					</p>
-				) : windows.length === 0 ? (
-					<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
-						下のDockからアプリを開いてみましょう
-					</p>
-				) : (
-					windows.map((window) => (
-						<Window
-							key={window.title}
-							title={window.title}
-							onClose={() => handleCloseWindow(window.title)}
-							redirectUrl={window.redirectUrl}
-							onCopy={handleCopy}
-						>
-							{window.content}
-						</Window>
-					))
-				)}
+			<div className='flex items-center justify-center w-full'>
+				<div className='flex flex-col gap-4 w-full items-center justify-center max-w-[1200px] mx-10 mt-10 mb-30 min-h-[calc(100vh-200px)]'>
+					{isInitialLoad ? (
+						<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
+							読み込み中...
+						</p>
+					) : windows.length === 0 ? (
+						<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
+							下のDockからアプリを開いてみましょう
+						</p>
+					) : (
+						windows.map((window) => (
+							<Window
+								key={window.title}
+								title={window.title}
+								onClose={() => handleCloseWindow(window.title)}
+								redirectUrl={window.redirectUrl}
+								onCopy={handleCopy}
+							>
+								{window.content}
+							</Window>
+						))
+					)}
+				</div>
 			</div>
 			<div>
 				<Notification isVisible={isCopied} message='URLをコピーしました' type="success" />
