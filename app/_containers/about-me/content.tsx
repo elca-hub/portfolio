@@ -35,8 +35,8 @@ export default function AboutMeContent() {
         </div>
         <div className='flex flex-col items-start justify-center gap-2'>
           <h1 className='text-3xl font-bold'>elca</h1>
-          <div className='text-md text-gray-400'>Web Engineer</div>
-          <div className='text-md text-gray-400'>
+          <div className='text-md text-gray-100'>Web Engineer</div>
+          <div className='text-md text-gray-100'>
             <TextWithIcon icon={<FaBirthdayCake />} children='2004/11/16' />
           </div>
         </div>
