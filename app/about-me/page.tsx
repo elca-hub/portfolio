@@ -2,6 +2,6 @@ import AboutMeContainer from "@/app/_containers/about-me/container";
 
 export default function AboutMePage() {
   return (
-    <AboutMeContainer />
+    <AboutMeContainer isWindow={true} />
   )
 }

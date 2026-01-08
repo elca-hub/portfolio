@@ -1,11 +1,11 @@
-import AboutMePresentation from "@/app/_containers/about-me/presentation"
+import AboutMeContainer from "@/app/_containers/about-me/container"
 import { FiFolder, FiUser } from "react-icons/fi"
 
 export type AppIconType = React.ReactElement<{ className?: string }>
 
 export type AppType = {
   title: string
-  content: React.ComponentType<{ isWindow?: boolean }>
+  content: React.ReactNode
   redirectUrl: string
   icon: AppIconType
 }
@@ -16,13 +16,13 @@ export type AppType = {
 const Apps: Record<string, AppType> = {
   aboutMe: {
     title: 'About Me',
-    content: AboutMePresentation,
+    content: <AboutMeContainer />,
     redirectUrl: '/about-me',
     icon: <FiUser />,
   },
   projects: {
     title: 'Projects',
-    content: AboutMePresentation,
+    content: <AboutMeContainer />,
     redirectUrl: '/projects',
     icon: <FiFolder />,
   }

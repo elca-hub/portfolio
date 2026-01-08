@@ -9,21 +9,18 @@ import { useEffect, useState } from 'react'
 
 const STORAGE_KEY = 'activeWindows'
 
+interface homeProps {
+	initialApps: AppType[],
+	defaultActiveApps: AppType[]
+}
+
 /**
  * @package
  */
-export default function HomePresentation() {
+export default function HomePresentation({ initialApps, defaultActiveApps }: homeProps) {
 	const searchParams = useSearchParams()
 
-	/*
-	ローカルストレージに何も登録されてなかった時のdefaultのウインドウ
-	*/
-	const defaultWindows = [
-		Apps.aboutMe,
-		Apps.projects,
-	]
-
-	const [windows, setWindows] = useState<AppType[]>([])
+	const [windows, setWindows] = useState<AppType[]>(defaultActiveApps)
 	const [isCopied, setIsCopied] = useState(false)
 
 	// ローカルストレージからアクティブなウィンドウを読み込む
@@ -50,7 +47,7 @@ export default function HomePresentation() {
 		// ローカルストレージに何もない場合（初回アクセス時）のみdefaultWindowsを使用
 		// 空の配列が保存されている場合は、意図的に削除された状態として扱う
 		if (!hasStoredData && restoredWindows.length === 0) {
-			restoredWindows = defaultWindows
+			restoredWindows = defaultActiveApps
 		}
 
 		// URLパラメータからウィンドウ名を取得
@@ -118,7 +115,7 @@ export default function HomePresentation() {
 							redirectUrl={window.redirectUrl}
 							onCopy={handleCopy}
 						>
-							<window.content />
+							{window.content}
 						</Window>
 					))
 				)}
