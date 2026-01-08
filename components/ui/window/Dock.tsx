@@ -1,18 +1,14 @@
 'use client'
 
-import Apps, { AppIconType, AppType } from '@/const/apps'
+import { AppIconType, AppType } from '@/const/appType'
 import React, { useState } from 'react'
 import { Button, Dialog, DialogTrigger, GridList, GridListItem, Heading, Modal, ModalOverlay, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 import { LuArrowRightToLine } from "react-icons/lu"
 import { MdClose } from 'react-icons/md'
 
-/**
- * const/apps.ts をそのまま配列化した Dock 用のアプリ一覧
- */
-const appItems: AppType[] = Object.values(Apps)
-
 interface DockProps {
+	apps: Record<string, AppType>,
 	/**
 	 * 現在アクティブな（ウインドウが開いている）アプリ
 	 */
@@ -103,7 +99,8 @@ function AppIcon({ icon, title, onPress }: { icon: AppIconType, title?: string, 
 	)
 }
 
-export default function Dock({ activeApps, onClick, onReorder, className = '' }: DockProps) {
+export default function Dock({ apps, activeApps, onClick, onReorder, className = '' }: DockProps) {
+	const appItems = Object.values(apps)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [isCompactMode, setIsCompactMode] = useState(false)
 

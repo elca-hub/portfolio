@@ -3,25 +3,29 @@
 import Notification from '@/components/ui/Notification'
 import Dock from '@/components/ui/window/Dock'
 import Window from '@/components/ui/window/Window'
-import { AppType } from '@/const/apps'
+import { AppType } from '@/const/appType'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const STORAGE_KEY = 'activeWindows'
 
 interface homeProps {
-	initialApps: AppType[],
+	apps: Record<string, AppType>,
 	defaultActiveApps: AppType[]
 }
 
 /**
  * @package
  */
-export default function HomePresentation({ initialApps, defaultActiveApps }: homeProps) {
+export default function HomePresentation({ apps, defaultActiveApps }: homeProps) {
 	const searchParams = useSearchParams()
 
-	const [windows, setWindows] = useState<AppType[]>(defaultActiveApps)
+	const [windows, setWindows] = useState<AppType[]>([])
 	const [isCopied, setIsCopied] = useState(false)
+
+	const [isInitialLoad, setIsInitialLoad] = useState(true)
+
+	const appList = Object.values(apps)
 
 	// ローカルストレージからアクティブなウィンドウを読み込む
 	useEffect(() => {
@@ -36,9 +40,8 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 			try {
 				const titles: string[] = JSON.parse(storedTitles)
 				// タイトルからAppTypeを復元
-				restoredWindows = titles
-					.map(title => initialApps.find(app => app.title === title))
-					.filter((app): app is AppType => app !== undefined)
+				restoredWindows = titles.map(title => appList.find(app => app.title === title))
+					.filter(app => app !== undefined)
 			} catch (error) {
 				console.error('Failed to parse stored windows:', error)
 			}
@@ -53,7 +56,7 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 		// URLパラメータからウィンドウ名を取得
 		const windowParam = searchParams.get('window')
 		if (windowParam) {
-			const targetApp = initialApps.find(app => app.title === windowParam)
+			const targetApp = appList.find(app => app.title === windowParam)
 			if (targetApp) {
 				// すでに開いている場合は先頭に移動
 				const existingIndex = restoredWindows.findIndex(w => w.title === targetApp.title)
@@ -74,6 +77,7 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 		}
 
 		setWindows(restoredWindows)
+		setIsInitialLoad(false)
 	}, [searchParams])
 
 	// windowsが変更されたらローカルストレージに保存
@@ -102,7 +106,11 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 	return (
 		<>
 			<div className='flex flex-col gap-4 items-center justify-center max-w-[1200px] mx-auto my-10 min-h-[calc(100vh-200px)]'>
-				{windows.length === 0 ? (
+				{isInitialLoad ? (
+					<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
+						読み込み中...
+					</p>
+				) : windows.length === 0 ? (
 					<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
 						下のDockからアプリを開いてみましょう
 					</p>
@@ -123,9 +131,10 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 			<div>
 				<Notification isVisible={isCopied} message='URLをコピーしました' type="success" />
 				<Dock
+					apps={apps}
 					activeApps={windows}
 					onClick={openWindow}
-					onReorder={(apps) => setWindows(apps)}
+					onReorder={(windows) => setWindows(windows)}
 				/>
 			</div>
 		</>
