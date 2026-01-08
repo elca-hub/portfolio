@@ -111,7 +111,7 @@ export default function Dock({ activeApps, onClick, onReorder, className = '' }:
 		<div
 			className={`
 				fixed bottom-0
-				flex justify-center gap-3
+				flex justify-center gap-3 items-center
 				px-4 py-3
 				rounded-t-3xl
 				bg-black/20 backdrop-blur-xl
