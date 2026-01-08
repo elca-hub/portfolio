@@ -34,7 +34,7 @@ export default function AboutMeContent() {
           <Image src='/icon.png' alt='About Me' width={600} height={600} className='w-full h-full object-cover' />
         </div>
         <div className='flex flex-col items-start justify-center gap-2'>
-          <h1 className='text-3xl font-bold'>elca</h1>
+          <h1 className='text-5xl font-bold'>elca</h1>
           <div className='text-md text-gray-100'>Web Engineer</div>
           <div className='text-md text-gray-100'>
             <TextWithIcon icon={<FaBirthdayCake />} children='2004/11/16' />
