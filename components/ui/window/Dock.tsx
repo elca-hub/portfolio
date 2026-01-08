@@ -1,7 +1,7 @@
 'use client'
 
-import Apps, { AppType } from '@/const/apps'
-import { useState } from 'react'
+import Apps, { AppIconType, AppType } from '@/const/apps'
+import React, { useState } from 'react'
 import { Button, Dialog, DialogTrigger, GridList, GridListItem, Heading, Modal, ModalOverlay, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 import { MdClose } from 'react-icons/md'
@@ -83,7 +83,7 @@ function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[]
 						key={item.title}
 						textValue={item.title}
 					>
-						<AppIcon icon={<Icon className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />} onPress={() => onClick(item)} />
+						<AppIcon icon={Icon} onPress={() => onClick(item)} />
 					</GridListItem>
 				)
 			})}
@@ -91,11 +91,11 @@ function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[]
 	)
 }
 
-function AppIcon({ icon, title, onPress }: { icon: React.ReactNode, title?: string, onPress: () => void }) {
+function AppIcon({ icon, title, onPress }: { icon: AppIconType, title?: string, onPress: () => void }) {
 	return (
 		<Button className="group relative flex flex-col items-center justify-center p-2 cursor-pointer transition-all duration-300 hover:scale-95" onPress={onPress}>
 			<div className="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:bg-white/10">
-				{icon}
+				{React.cloneElement(icon, { className: "size-8 text-white/90 group-hover:text-white transition-colors duration-300" })}
 			</div>
 			{title && <span className="text-lg text-white/90">{title}</span>}
 		</Button>
@@ -120,7 +120,7 @@ export default function Dock({ activeApps, onClick, onReorder, className = '' }:
 			{/* Apps 一覧ポップアップボタン */}
 			<div className="relative">
 				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
-					<AppIcon icon={<GrAppsRounded className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />} onPress={() => { }} />
+					<AppIcon icon={<GrAppsRounded />} onPress={() => { }} />
 					<ModalOverlay className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
 						<Modal isDismissable>
 							<Dialog className="bg-black/20 border border-white/10 shadow-lg p-4 rounded-3xl min-w-[600px]">
@@ -137,7 +137,7 @@ export default function Dock({ activeApps, onClick, onReorder, className = '' }:
 										const Icon = app.icon
 										return (
 											<GridListItem key={index}>
-												<AppIcon icon={<Icon className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />} title={app.title} onPress={() => {
+												<AppIcon icon={Icon} title={app.title} onPress={() => {
 													onClick(app)
 													setIsModalOpen(false)
 												}} />
