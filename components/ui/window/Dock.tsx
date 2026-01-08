@@ -4,6 +4,7 @@ import Apps, { AppIconType, AppType } from '@/const/apps'
 import React, { useState } from 'react'
 import { Button, Dialog, DialogTrigger, GridList, GridListItem, Heading, Modal, ModalOverlay, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
+import { LuArrowRightToLine } from "react-icons/lu"
 import { MdClose } from 'react-icons/md'
 
 /**
@@ -104,18 +105,38 @@ function AppIcon({ icon, title, onPress }: { icon: AppIconType, title?: string, 
 
 export default function Dock({ activeApps, onClick, onReorder, className = '' }: DockProps) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isCompactMode, setIsCompactMode] = useState(false)
 
 	return (
-		<div className={`relative inline-flex items-center justify-center gap-3 px-4 py-3 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg ${className}`}>
-			<AppList
-				key={activeApps.map((app) => app.title).join('|')}
-				initialItems={activeApps}
-				onClick={onClick}
-				onReorder={onReorder}
-			/>
+		<div
+			className={`
+				fixed bottom-0
+				flex justify-center gap-3
+				px-4 py-3
+				rounded-t-3xl
+				bg-black/20 backdrop-blur-xl
+				border border-white/10
+				shadow-lg
+				transition-all
+				duration-500
+				${className}
+				${isCompactMode ? 'flex-col w-fit rounded-3xl bottom-2 right-2' : 'flex-row w-full'}
+			`}
+		>
+			{!isCompactMode && (
+				<>
+					<AppList
+						key={activeApps.map((app) => app.title).join('|')}
+						initialItems={activeApps}
+						onClick={onClick}
+						onReorder={onReorder}
+					/>
 
-			{/* 区切りの縦棒 */}
-			<div className="h-10 w-px bg-white/20 rounded-full" />
+					{/* 区切りの縦棒 */}
+					<div className="h-10 w-px bg-white/20 rounded-full" />
+
+				</>
+			)}
 
 			{/* Apps 一覧ポップアップボタン */}
 			<div className="relative">
@@ -149,6 +170,12 @@ export default function Dock({ activeApps, onClick, onReorder, className = '' }:
 						</Modal>
 					</ModalOverlay>
 				</DialogTrigger>
+			</div>
+
+			<div className="relative">
+				<div className={`transition-all duration-500 ${isCompactMode && 'rotate-180'}`}>
+					<AppIcon icon={<LuArrowRightToLine />} onPress={() => { setIsCompactMode(!isCompactMode) }} />
+				</div>
 			</div>
 		</div>
 	)
