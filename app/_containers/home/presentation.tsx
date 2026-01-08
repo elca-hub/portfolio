@@ -3,7 +3,7 @@
 import Notification from '@/components/ui/Notification'
 import Dock from '@/components/ui/window/Dock'
 import Window from '@/components/ui/window/Window'
-import Apps, { AppType } from '@/const/apps'
+import { AppType } from '@/const/apps'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -37,7 +37,7 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 				const titles: string[] = JSON.parse(storedTitles)
 				// タイトルからAppTypeを復元
 				restoredWindows = titles
-					.map(title => Object.values(Apps).find(app => app.title === title))
+					.map(title => initialApps.find(app => app.title === title))
 					.filter((app): app is AppType => app !== undefined)
 			} catch (error) {
 				console.error('Failed to parse stored windows:', error)
@@ -53,7 +53,7 @@ export default function HomePresentation({ initialApps, defaultActiveApps }: hom
 		// URLパラメータからウィンドウ名を取得
 		const windowParam = searchParams.get('window')
 		if (windowParam) {
-			const targetApp = Object.values(Apps).find(app => app.title === windowParam)
+			const targetApp = initialApps.find(app => app.title === windowParam)
 			if (targetApp) {
 				// すでに開いている場合は先頭に移動
 				const existingIndex = restoredWindows.findIndex(w => w.title === targetApp.title)
