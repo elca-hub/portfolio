@@ -20,7 +20,7 @@ function AboutSectionItem({ title, value }: { title: string, value: string }) {
 function ContactItem({ href, icon }: { href: string, icon: IconType }) {
   const Icon = icon
   return (
-    <a href={href} target='_blank' rel='noopener noreferrer' className='text-white hover:text-gray-400 transition-colors duration-300'>
+    <a href={href} target='_blank' rel='noopener noreferrer' className='text-white hover:text-gray-300 transition-colors duration-300'>
       <Icon className='size-8' />
     </a>
   )
