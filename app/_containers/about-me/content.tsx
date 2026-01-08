@@ -10,7 +10,7 @@ function AboutSectionItem({ title, value }: { title: string, value: string }) {
   return (
     <div className='flex flex-col items-center justify-center gap-2'>
       <h2 className='text-2xl font-bold'>{title}</h2>
-      <div className='text-md text-gray-400 text-center'>
+      <div className='text-md text-gray-100 text-center'>
         <BudouXText text={value} />
       </div>
     </div>

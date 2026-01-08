@@ -125,7 +125,7 @@ export default function Dock({ activeApps, onClick, onReorder, className = '' }:
 						<Modal isDismissable>
 							<Dialog className="bg-black/20 border border-white/10 shadow-lg p-4 rounded-3xl min-w-[600px]">
 								<div className="flex items-center justify-between mb-4">
-									<Heading slot="title" className="text-4xl font-bold">
+									<Heading slot="title" className="text-4xl font-bold text-white">
 										Apps
 									</Heading>
 									<Button slot="close" className="cursor-pointer transition-all duration-300 hover:scale-95">

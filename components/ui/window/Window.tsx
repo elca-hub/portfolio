@@ -68,8 +68,10 @@ export default function Window({
 
 	return (
 		<div
-			className={`relative p-4 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg ${isMaximized ? 'absolute top-0 left-0 w-full h-full' : 'w-full h-full'
-				}`}
+			className={`
+				relative p-4 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg
+				${isMaximized ? 'absolute top-0 left-0 w-full h-full' : 'w-full h-full'}
+			`}
 		>
 			<div className="mb-4 grid grid-cols-3">
 				<div>
@@ -84,7 +86,7 @@ export default function Window({
 				<div className="flex items-center justify-center">
 					<h1
 						onClick={handleTitleClick}
-						className="text-black dark:text-white text-2xl font-bold cursor-pointer hover:opacity-70 transition-opacity"
+						className="text-white text-2xl font-bold cursor-pointer hover:opacity-70 transition-opacity"
 						title="クリックしてURLをコピー"
 					>
 						{title}
