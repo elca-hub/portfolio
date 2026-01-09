@@ -94,7 +94,7 @@ export default function Window({
 				</div>
 			</div>
 			<AnimatePresence>
-				{isHidden && (
+				{!isHidden && (
 					<motion.div
 						initial={{ height: 'auto', opacity: 1, y: 1 }}
 						exit={{ height: 0, opacity: 0, y: -10 }}
