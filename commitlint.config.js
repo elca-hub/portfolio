@@ -6,10 +6,9 @@ module.exports = {
       'remove',
       'update',
       'update',
-      'style'
+      'style',
+      'chore',
     ]],
     'subject-max-length': [2, 'always', 50],
-    'subject-empty': [2, 'always'],
-    'type-empty': [2, 'always'],
   }
 }
