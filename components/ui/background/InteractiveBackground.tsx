@@ -164,7 +164,7 @@ export function InteractiveBackground({
           `,
         }}
       />
-      <div className="absolute inset-0 z-10">{children}</div>
+      <div className="absolute inset-0 z-10 overflow-y-auto">{children}</div>
     </div>
   )
 }
