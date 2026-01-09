@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import WindowButtons from './WindowButtons'
@@ -93,22 +93,21 @@ export default function Window({
 					</h1>
 				</div>
 			</div>
-			<motion.div
-				initial={isHidden ? 'hidden' : 'visible'}
-				animate={isHidden ? 'hidden' : 'visible'}
-				exit="hidden"
-				variants={{
-					hidden: { height: 0, opacity: 0, y: -10 },
-					visible: { height: 'auto', opacity: 1, y: 0 },
-				}}
-				transition={{
-					duration: 0.3,
-					ease: 'easeInOut',
-				}}
-				className="w-full h-full p-4 max-w-[1200px] mx-auto"
-			>
-				{children}
-			</motion.div>
+			<AnimatePresence>
+				{isHidden && (
+					<motion.div
+						initial={{ height: 'auto', opacity: 1, y: 1 }}
+						exit={{ height: 0, opacity: 0, y: -10 }}
+						transition={{
+							duration: 0.3,
+							ease: 'easeInOut',
+						}}
+						className="w-full h-full p-4 max-w-[1200px] mx-auto"
+					>
+						{children}
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	)
 }

@@ -4,6 +4,8 @@ import HomePresentation from '@/app/_containers/home/presentation'
 import { AppType } from '@/const/appType'
 import { FiFolder, FiUser } from 'react-icons/fi'
 import AboutMeContainer from '../about-me/container'
+import { FaPaintBrush } from 'react-icons/fa'
+import IllustrationsContainer from '../illustrations/container'
 
 export default async function HomeContainer() {
   const apps: Record<string, AppType> = {
@@ -18,6 +20,12 @@ export default async function HomeContainer() {
       content: <AboutMeContainer />,
       redirectUrl: '/projects',
       icon: <FiFolder />,
+    },
+    illustrations: {
+      title: 'Illustrations',
+      content: <IllustrationsContainer />,
+      redirectUrl: '/illustrations',
+      icon: <FaPaintBrush />,
     }
   }
   const defaultActiveApps = [
