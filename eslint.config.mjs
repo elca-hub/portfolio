@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import typeScriptEsLintPlugin from "@typescript-eslint/eslint-plugin";
 import typescriptEslintParser from "@typescript-eslint/parser";
 import importAccess from "eslint-plugin-import-access/flat-config";
 import { dirname } from "path";
@@ -9,6 +10,7 @@ const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
+  recommendedConfig: typeScriptEsLintPlugin.configs.recommended,
 });
 
 const eslintConfig = [
@@ -26,11 +28,6 @@ const eslintConfig = [
   {
     plugins: {
       "import-access": importAccess,
-      "prettier": {
-        rules: {
-          "prettier/prettier": "error",
-        },
-      },
     },
   },
   {
@@ -46,9 +43,11 @@ const eslintConfig = [
       "node_modules/*",
       "out/*",
       "public/*",
-      "build/*"
+      "build/*",
+      "eslint.config.mjs",
+      "postcss.config.mjs",
     ]
-  }
+  },
 ];
 
 export default eslintConfig;

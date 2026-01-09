@@ -16,7 +16,7 @@ const meta: Meta<typeof Dock> = {
 	},
 	decorators: [
 		(Story) => (
-			<div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-8">
+			<div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-8">
 				<Story />
 			</div>
 		),

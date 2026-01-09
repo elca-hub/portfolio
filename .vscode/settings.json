@@ -1,9 +1,13 @@
 {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
+    "source.fixAll.prettier": "always",
     "source.addMissingImports.ts": "always",
     "source.organizeImports.ts": "always"
   },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.options": {
+    "overrideConfigFile": "eslint.config.mjs"
+  }
 }

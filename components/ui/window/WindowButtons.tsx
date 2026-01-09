@@ -37,7 +37,7 @@ export default function WindowButtons({
 
 	return (
 		<div
-			className={`sm:pointer-events-none inline-flex justify-start items-center gap-3 p-2 rounded-full bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg transition-transform duration-300 ${isExpanded && 'scale-150 sm:scale-100'}`}
+			className={`inline-flex items-center justify-start gap-3 rounded-full border border-white/10 bg-black/20 p-2 shadow-lg backdrop-blur-xl transition-transform duration-300 sm:pointer-events-none ${isExpanded && 'scale-150 sm:scale-100'}`}
 			onTouchStart={() => setIsExpanded(true)}
 		>
 			<Button

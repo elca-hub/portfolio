@@ -149,7 +149,7 @@ export function InteractiveBackground({ children, breathsPerMinute }: Interactiv
 	}, [breathsPerMinute])
 
 	return (
-		<div className="relative min-h-screen overflow-hidden bg-gray-300 dark:bg-slate-950 text-slate-50">
+		<div className="relative min-h-screen overflow-hidden bg-gray-300 text-slate-50 dark:bg-slate-950">
 			<div
 				className="pointer-events-none fixed inset-0 opacity-70 transition-[background-position] duration-300 ease-out"
 				style={{

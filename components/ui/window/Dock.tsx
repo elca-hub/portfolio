@@ -33,7 +33,7 @@ function AppList({
 	onClick: (app: AppType) => void
 	onReorder: (apps: AppType[]) => void
 }) {
-	let { dragAndDropHooks } = useDragAndDrop({
+	const { dragAndDropHooks } = useDragAndDrop({
 		getItems(keys) {
 			// 選択中キーに対応するアプリ情報を渡す
 			return initialItems
@@ -76,7 +76,7 @@ function AppList({
 			selectionMode="multiple"
 			dragAndDropHooks={dragAndDropHooks}
 			layout="grid"
-			className="sm:grid hidden grid-flow-col auto-cols-max items-end gap-2"
+			className="hidden auto-cols-max grid-flow-col items-end gap-2 sm:grid"
 		>
 			{initialItems.map((item) => {
 				const Icon = item.icon
@@ -93,10 +93,10 @@ function AppList({
 function AppIcon({ icon, title, onPress }: { icon: AppIconType; title?: string; onPress: () => void }) {
 	return (
 		<Button
-			className="group relative flex flex-col items-center justify-center sm:p-2 p-1 cursor-pointer transition-all duration-300 hover:scale-95"
+			className="group relative flex cursor-pointer flex-col items-center justify-center p-1 transition-all duration-300 hover:scale-95 sm:p-2"
 			onPress={onPress}
 		>
-			<div className="flex items-center justify-center sm:size-12 size-10 rounded-2xl transition-all duration-300 group-hover:bg-white/10">
+			<div className="flex size-10 items-center justify-center rounded-2xl transition-all duration-300 group-hover:bg-white/10 sm:size-12">
 				{React.cloneElement(icon, { className: 'size-8 text-white/90 group-hover:text-white transition-colors duration-300' })}
 			</div>
 			{title && <span className="text-lg text-white/90">{title}</span>}
@@ -111,27 +111,14 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 
 	return (
 		<div
-			className={`
-				fixed sm:bottom-0 sm:right-0
-				flex justify-center gap-3 items-center
-				px-4 py-3
-				rounded-full
-				bg-black/20 backdrop-blur-xl
-				border border-white/10
-				shadow-lg
-				transition-all
-				duration-500
-				${className}
-				${isCompactMode ? 'flex-col w-fit sm:rounded-3xl sm:bottom-2 sm:right-2' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'}
-				bottom-2 right-2
-			`}
+			className={`fixed flex items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-3 shadow-lg backdrop-blur-xl transition-all duration-500 sm:right-0 sm:bottom-0 ${className} ${isCompactMode ? 'w-fit flex-col sm:right-2 sm:bottom-2 sm:rounded-3xl' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'} right-2 bottom-2`}
 		>
 			{!isCompactMode && (
 				<>
 					<AppList key={activeApps.map((app) => app.title).join('|')} initialItems={activeApps} onClick={onClick} onReorder={onReorder} />
 
 					{/* 区切りの縦棒 */}
-					<div className="h-10 w-px bg-white/20 rounded-full sm:block hidden" />
+					<div className="hidden h-10 w-px rounded-full bg-white/20 sm:block" />
 				</>
 			)}
 
@@ -139,18 +126,18 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 			<div className="relative">
 				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
 					<AppIcon icon={<GrAppsRounded />} onPress={() => {}} />
-					<ModalOverlay className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
-						<Modal isDismissable className="sm:min-w-[600px] min-w-full">
-							<Dialog className="bg-black/20 border border-white/10 shadow-lg p-4 rounded-3xl mx-4 sm:mx-0">
-								<div className="flex items-center justify-between mb-4">
+					<ModalOverlay className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+						<Modal isDismissable className="min-w-full sm:min-w-[600px]">
+							<Dialog className="mx-4 rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
+								<div className="mb-4 flex items-center justify-between">
 									<Heading slot="title" className="text-4xl font-bold text-white">
 										Apps
 									</Heading>
 									<Button slot="close" className="cursor-pointer transition-all duration-300 hover:scale-95">
-										<MdClose className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />
+										<MdClose className="h-8 w-8 text-white/90 transition-colors duration-300 group-hover:text-white" />
 									</Button>
 								</div>
-								<GridList aria-label="Apps" layout="grid" className="grid grid-flow-col auto-cols-max items-end gap-4">
+								<GridList aria-label="Apps" layout="grid" className="grid auto-cols-max grid-flow-col items-end gap-4">
 									{appItems.map((app, index) => {
 										const Icon = app.icon
 										return (
@@ -173,7 +160,7 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 				</DialogTrigger>
 			</div>
 
-			<div className="relative sm:block hidden">
+			<div className="relative hidden sm:block">
 				<div className={`transition-all duration-500 ${isCompactMode && 'rotate-180'}`}>
 					<AppIcon
 						icon={<LuArrowRightToLine />}

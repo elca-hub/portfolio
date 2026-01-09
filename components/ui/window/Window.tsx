@@ -68,12 +68,9 @@ export default function Window({
 
 	return (
 		<div
-			className={`
-				relative p-4 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg
-				${isMaximized ? 'absolute inset-0 w-full h-full overflow-y-scroll' : 'w-full h-full'}
-			`}
+			className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-y-scroll' : 'h-full w-full'} `}
 		>
-			<div className="mb-4 grid sm:grid-cols-3 grid-cols-2">
+			<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
 				<div>
 					<WindowButtons
 						onClose={handleClose}
@@ -86,7 +83,7 @@ export default function Window({
 				<div className="flex items-center justify-center">
 					<h1
 						onClick={handleTitleClick}
-						className="text-white text-2xl font-bold cursor-pointer hover:opacity-70 transition-opacity"
+						className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
 						title="クリックしてURLをコピー"
 					>
 						{title}
@@ -102,7 +99,7 @@ export default function Window({
 							duration: 0.3,
 							ease: 'easeInOut',
 						}}
-						className="w-full h-full p-4 max-w-[1200px] mx-auto"
+						className="mx-auto h-full w-full max-w-[1200px] p-4"
 					>
 						{children}
 					</motion.div>

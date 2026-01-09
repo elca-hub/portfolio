@@ -10,7 +10,7 @@ function AboutSectionItem({ title, value }: { title: string; value: string }) {
 	return (
 		<div className="flex flex-col items-center justify-center gap-2">
 			<h2 className="text-2xl font-bold">{title}</h2>
-			<div className="text-md text-gray-100 text-center">
+			<div className="text-md text-center text-gray-100">
 				<BudouXText text={value} />
 			</div>
 		</div>
@@ -20,7 +20,7 @@ function AboutSectionItem({ title, value }: { title: string; value: string }) {
 function ContactItem({ href, icon }: { href: string; icon: IconType }) {
 	const Icon = icon
 	return (
-		<a href={href} target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300 transition-colors duration-300">
+		<a href={href} target="_blank" rel="noopener noreferrer" className="text-white transition-colors duration-300 hover:text-gray-300">
 			<Icon className="size-8" />
 		</a>
 	)
@@ -29,21 +29,21 @@ function ContactItem({ href, icon }: { href: string; icon: IconType }) {
 export default function AboutMeContent() {
 	return (
 		<article className="flex flex-col items-center justify-center gap-8">
-			<section className="flex flex-col sm:flex-row items-center justify-center gap-10">
-				<div className="size-50 rounded-full overflow-hidden">
-					<Image src="/icon.png" alt="About Me" width={600} height={600} className="w-full h-full object-cover" />
+			<section className="flex flex-col items-center justify-center gap-10 sm:flex-row">
+				<div className="size-50 overflow-hidden rounded-full">
+					<Image src="/icon.png" alt="About Me" width={600} height={600} className="h-full w-full object-cover" />
 				</div>
 				<div className="flex flex-col items-start justify-center gap-2">
 					<h1 className="text-5xl font-bold">elca</h1>
 					<div className="text-md text-gray-100">Web Engineer</div>
 					<div className="text-md text-gray-100">
-						<TextWithIcon icon={<FaBirthdayCake />} children="2004/11/16" />
+						<TextWithIcon icon={<FaBirthdayCake />}>2004/11/16</TextWithIcon>
 					</div>
 				</div>
 			</section>
 
 			<section>
-				<h2 className="text-2xl font-bold mb-4 text-center">Contact</h2>
+				<h2 className="mb-4 text-center text-2xl font-bold">Contact</h2>
 				<div className="flex flex-row items-center justify-center gap-7">
 					<ContactItem href="https://github.com/elca-hub" icon={FaGithub} />
 					<ContactItem href="https://x.com/elca_e1" icon={FaXTwitter} />
@@ -51,7 +51,7 @@ export default function AboutMeContent() {
 				</div>
 			</section>
 
-			<section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+			<section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 				<AboutSectionItem title="Place" value="石川県" />
 				<AboutSectionItem title="College" value="金沢工業大学" />
 				<AboutSectionItem title="Skills" value="Go, TypeScript, Next.js, Docker, GitHub, AWS(CDK) etc." />
@@ -59,8 +59,8 @@ export default function AboutMeContent() {
 			</section>
 
 			<section>
-				<h2 className="text-2xl font-bold mb-4 text-center">Comment</h2>
-				<p className="text-md text-gray-100 text-center">
+				<h2 className="mb-4 text-center text-2xl font-bold">Comment</h2>
+				<p className="text-md text-center text-gray-100">
 					<BudouXText
 						text={`
               みなさんこんにちは、elcaです。

@@ -3,9 +3,9 @@ import Image from 'next/image'
 function IllustrationItem({ file, title, description }: { file: string; title: string; description: string }) {
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
-			<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="w-full h-[30vh] object-cover rounded-lg" />
+			<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-[30vh] w-full rounded-lg object-cover" />
 			<h2 className="text-2xl font-bold">{title}</h2>
-			<p className="text-md text-gray-100 text-center">{description}</p>
+			<p className="text-md text-center text-gray-100">{description}</p>
 		</section>
 	)
 }
@@ -36,15 +36,15 @@ export default function IllustrationsContent() {
 
 	return (
 		<article>
-			<section className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
+			<section className="grid grid-cols-1 items-start gap-4 sm:grid-cols-3">
 				{illustrations.map((illustration) => (
 					<IllustrationItem key={illustration.title} {...illustration} />
 				))}
 			</section>
 			<section>
-				<h2 className="text-2xl font-bold mb-4 text-center">使用ツール</h2>
-				<p className="text-md text-gray-100 text-center">Clip Studio</p>
-				<p className="text-md text-gray-100 text-center">iPad Pro 13インチ</p>
+				<h2 className="mb-4 text-center text-2xl font-bold">使用ツール</h2>
+				<p className="text-md text-center text-gray-100">Clip Studio</p>
+				<p className="text-md text-center text-gray-100">iPad Pro 13インチ</p>
 			</section>
 		</article>
 	)
