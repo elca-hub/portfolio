@@ -4,8 +4,6 @@ module.exports = {
     'type-enum': [2, 'always', [
       'add',
       'remove',
-      'update',
-      'update',
       'style',
       'chore',
       'fix',
