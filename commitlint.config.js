@@ -8,6 +8,8 @@ module.exports = {
       'update',
       'style'
     ]],
-    'body-max-line-length': [2, 'always', 50],
+    'subject-max-length': [2, 'always', 50],
+    'subject-empty': [2, 'always'],
+    'type-empty': [2, 'always'],
   }
 }
