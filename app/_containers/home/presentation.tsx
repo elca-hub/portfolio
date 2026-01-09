@@ -108,7 +108,7 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 	return (
 		<>
 			<div className='flex items-center justify-center w-full'>
-				<div className='flex flex-col gap-4 w-full items-center justify-center max-w-[1200px] mt-10 mb-30 min-h-[calc(100vh-200px)] sm:mx-10 mx-4'>
+				<div className='flex flex-col gap-4 w-full items-center justify-center max-w-[1200px] mt-10 sm:mb-30 mb-24 min-h-[calc(100vh-200px)] sm:mx-10 mx-4'>
 					{isInitialLoad ? (
 						<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
 							読み込み中...
