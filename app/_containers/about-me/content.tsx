@@ -29,7 +29,7 @@ function ContactItem({ href, icon }: { href: string, icon: IconType }) {
 export default function AboutMeContent() {
   return (
     <article className='flex flex-col items-center justify-center gap-8'>
-      <section className='flex flex-row items-center justify-center gap-10'>
+      <section className='flex flex-col sm:flex-row items-center justify-center gap-10'>
         <div className='size-50 rounded-full overflow-hidden'>
           <Image src='/icon.png' alt='About Me' width={600} height={600} className='w-full h-full object-cover' />
         </div>
