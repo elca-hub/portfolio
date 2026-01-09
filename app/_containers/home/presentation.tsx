@@ -83,10 +83,12 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 	// windowsが変更されたらローカルストレージに保存
 	useEffect(() => {
 		if (typeof window === 'undefined') return
+		// 初期化中は保存しない（初期化中の空配列が保存されるのを防ぐ）
+		if (isInitialLoad) return
 
 		const titles = windows.map(w => w.title)
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(titles))
-	}, [windows])
+	}, [windows, isInitialLoad])
 
 	const openWindow = (app: AppType) => {
 		// 同じタイトルのウインドウがすでにあれば追加しない
