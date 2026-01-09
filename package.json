@@ -13,7 +13,7 @@
 		"build-storybook": "storybook build",
 		"test-storybook": "vitest run --ui --reporter verbose",
 		"prepare": "husky",
-		"commitmsg": "commitlint -e $1"
+		"commitmsg": "commitlint -e $GIT_PARAMS"
 	},
 	"dependencies": {
 		"budoux": "^0.7.0",
