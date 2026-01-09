@@ -1,7 +1,8 @@
 'use client'
 
 import { AppIconType, AppType } from '@/const/appType'
-import React, { useState } from 'react'
+import isMobile from 'ismobilejs'
+import React, { useEffect, useState } from 'react'
 import { Button, Dialog, DialogTrigger, GridList, GridListItem, Heading, Modal, ModalOverlay, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 import { LuArrowRightToLine } from "react-icons/lu"
@@ -90,8 +91,8 @@ function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[]
 
 function AppIcon({ icon, title, onPress }: { icon: AppIconType, title?: string, onPress: () => void }) {
 	return (
-		<Button className="group relative flex flex-col items-center justify-center p-2 cursor-pointer transition-all duration-300 hover:scale-95" onPress={onPress}>
-			<div className="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:bg-white/10">
+		<Button className="group relative flex flex-col items-center justify-center sm:p-2 p-1 cursor-pointer transition-all duration-300 hover:scale-95" onPress={onPress}>
+			<div className="flex items-center justify-center sm:size-12 size-10 rounded-2xl transition-all duration-300 group-hover:bg-white/10">
 				{React.cloneElement(icon, { className: "size-8 text-white/90 group-hover:text-white transition-colors duration-300" })}
 			</div>
 			{title && <span className="text-lg text-white/90">{title}</span>}
@@ -99,7 +100,7 @@ function AppIcon({ icon, title, onPress }: { icon: AppIconType, title?: string, 
 	)
 }
 
-export default function Dock({ apps, activeApps, onClick, onReorder, className = '' }: DockProps) {
+function PCDock({ apps, activeApps, onClick, onReorder, className = '' }: DockProps) {
 	const appItems = Object.values(apps)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [isCompactMode, setIsCompactMode] = useState(false)
@@ -175,5 +176,86 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 				</div>
 			</div>
 		</div>
+	)
+}
+
+function MobileDock({ apps, activeApps, onClick, onReorder, className = '' }: DockProps) {
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const appItems = Object.values(apps)
+
+	return (
+		<div
+			className={`
+			fixed bottom-0
+			flex flex-row justify-center gap-3 items-center
+			px-4 py-3
+			rounded-t-3xl
+			bg-black/20 backdrop-blur-xl
+			border border-white/10
+			shadow-lg
+			transition-all
+			duration-500
+			${className}
+			w-fit rounded-3xl bottom-2 right-2
+		`}
+		>
+
+			{/* Apps 一覧ポップアップボタン */}
+			<div className="relative">
+				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
+					<AppIcon icon={<GrAppsRounded />} onPress={() => { }} />
+					<ModalOverlay className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+						<Modal isDismissable className="w-full mx-10">
+							<Dialog className="bg-black/20 border border-white/10 shadow-lg p-4 rounded-3xl ">
+								<div className="flex items-center justify-between mb-4">
+									<Heading slot="title" className="text-4xl font-bold text-white">
+										Apps
+									</Heading>
+									<Button slot="close" className="cursor-pointer transition-all duration-300 hover:scale-95">
+										<MdClose className="w-8 h-8 text-white/90 group-hover:text-white transition-colors duration-300" />
+									</Button>
+								</div>
+								<GridList aria-label="Apps" layout="grid" className="grid grid-flow-col auto-cols-max items-end gap-4">
+									{appItems.map((app, index) => {
+										const Icon = app.icon
+										return (
+											<GridListItem key={index}>
+												<AppIcon icon={Icon} title={app.title} onPress={() => {
+													onClick(app)
+													setIsModalOpen(false)
+												}} />
+											</GridListItem>
+										)
+									})}
+								</GridList>
+							</Dialog>
+						</Modal>
+					</ModalOverlay>
+				</DialogTrigger>
+			</div>
+		</div>
+	)
+}
+
+export default function Dock({ apps, activeApps, onClick, onReorder, className = '' }: DockProps) {
+	const [isMobileDevice, setIsMobileDevice] = useState(false)
+
+	// ユーザーエージェントからモバイル判定を行う
+	useEffect(() => {
+		if (typeof window === 'undefined') return
+
+		const userAgent = navigator.userAgent
+		const mobileCheck = isMobile(userAgent)
+		setIsMobileDevice(mobileCheck.any)
+	}, [])
+
+	if (isMobileDevice) {
+		return (
+			<MobileDock apps={apps} activeApps={activeApps} onClick={onClick} onReorder={onReorder} className={className} />
+		)
+	}
+
+	return (
+		<PCDock apps={apps} activeApps={activeApps} onClick={onClick} onReorder={onReorder} className={className} />
 	)
 }
