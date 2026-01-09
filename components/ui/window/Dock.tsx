@@ -107,17 +107,17 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 	return (
 		<div
 			className={`
-				fixed sm:bottom-0
+				fixed sm:bottom-0 sm:right-0
 				flex justify-center gap-3 items-center
 				px-4 py-3
-				sm:rounded-t-3xl rounded-full
+				rounded-full
 				bg-black/20 backdrop-blur-xl
 				border border-white/10
 				shadow-lg
 				transition-all
 				duration-500
 				${className}
-				${isCompactMode ? 'flex-col w-fit rounded-3xl bottom-2 right-2' : 'flex-row sm:w-full'}
+				${isCompactMode ? 'flex-col w-fit sm:rounded-3xl sm:bottom-2 sm:right-2' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'}
 				bottom-2 right-2
 			`}
 		>
