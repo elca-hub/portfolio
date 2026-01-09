@@ -11,7 +11,7 @@ function IllustrationItem({
 }) {
   return (
     <section className='flex flex-col items-center justify-center gap-2'>
-      <Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className='w-full h-[30vh] object-cover' />
+      <Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className='w-full h-[30vh] object-cover rounded-lg' />
       <h2 className='text-2xl font-bold'>{title}</h2>
       <p className='text-md text-gray-100 text-center'>{description}</p>
     </section>
