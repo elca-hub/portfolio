@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import { Button } from 'react-aria-components'
 import { MdClose, MdOutlineCloseFullscreen, MdZoomInMap, MdZoomOutMap } from 'react-icons/md'
 
@@ -14,12 +17,29 @@ export default function WindowButtons({
 	onMinimize: () => void
 	onMaximize: () => void
 }) {
-	const buttonComponentStyle = 'rounded-full border-none cursor-pointer size-6 p-1 hover:scale-90 transition-all duration-300'
+	const [isExpanded, setIsExpanded] = useState(false)
+
+	useEffect(() => {
+		if (isExpanded) {
+			const collapseTimer = setTimeout(() => {
+				setIsExpanded(false)
+			}, 3000)
+
+			return () => {
+				clearTimeout(collapseTimer)
+			}
+		}
+	}, [isExpanded])
+
+	const buttonComponentStyle = `${isExpanded ? 'pointer-events-auto' : 'pointer-events-none'} sm:pointer-events-auto scale-100 rounded-full border-none cursor-pointer size-6 p-1 hover:scale-90 transition-all duration-300`
 	const buttonIconStyle = 'text-gray-600 w-full h-full'
 	const buttonDisabledStyle = 'opacity-50 cursor-not-allowed pointer-events-none'
 
 	return (
-		<div className="inline-flex justify-start items-center gap-3 p-2 rounded-full bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg">
+		<div
+			className={`sm:pointer-events-none inline-flex justify-start items-center gap-3 p-2 rounded-full bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg transition-transform duration-300 ${isExpanded && 'scale-150 sm:scale-100'}`}
+			onTouchStart={() => setIsExpanded(true)}
+		>
 			<Button
 				className={`bg-red-400 ${buttonComponentStyle} ${!isEnabledMinimize && buttonDisabledStyle}`}
 				onPress={onClose}
