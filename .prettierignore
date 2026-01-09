@@ -12,3 +12,6 @@ pnpm-lock.yaml
 next.config.js
 .vscode/
 README.md
+eslint.config.mjs
+postcss.config.mjs
+tsconfig.json
