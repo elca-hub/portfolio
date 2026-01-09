@@ -12,7 +12,7 @@ const meta: Meta<typeof Dock> = {
 			{ title: 'フォルダ', content: (() => null) as AppType['content'], redirectUrl: '/folder', icon: FiFolder },
 			{ title: '検索', content: (() => null) as AppType['content'], redirectUrl: '/search', icon: FiSearch },
 		] as AppType[],
-		onClick: () => { },
+		onClick: () => {},
 	},
 	decorators: [
 		(Story) => (
@@ -46,6 +46,6 @@ export const Minimal: StoryObj<typeof Dock> = {
 			{ title: 'ホーム', content: (() => null) as AppType['content'], redirectUrl: '/home', icon: FiHome },
 			{ title: '設定', content: (() => null) as AppType['content'], redirectUrl: '/settings', icon: FiSettings },
 		] as AppType[],
-		onClick: () => { },
+		onClick: () => {},
 	},
 }

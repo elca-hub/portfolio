@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 const STORAGE_KEY = 'activeWindows'
 
 interface homeProps {
-	apps: Record<string, AppType>,
+	apps: Record<string, AppType>
 	defaultActiveApps: AppType[]
 }
 
@@ -40,8 +40,7 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 			try {
 				const titles: string[] = JSON.parse(storedTitles)
 				// タイトルからAppTypeを復元
-				restoredWindows = titles.map(title => appList.find(app => app.title === title))
-					.filter(app => app !== undefined)
+				restoredWindows = titles.map((title) => appList.find((app) => app.title === title)).filter((app) => app !== undefined)
 			} catch (error) {
 				console.error('Failed to parse stored windows:', error)
 			}
@@ -56,16 +55,13 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 		// URLパラメータからウィンドウ名を取得
 		const windowParam = searchParams.get('window')
 		if (windowParam) {
-			const targetApp = appList.find(app => app.title === windowParam)
+			const targetApp = appList.find((app) => app.title === windowParam)
 			if (targetApp) {
 				// すでに開いている場合は先頭に移動
-				const existingIndex = restoredWindows.findIndex(w => w.title === targetApp.title)
+				const existingIndex = restoredWindows.findIndex((w) => w.title === targetApp.title)
 				if (existingIndex !== -1) {
 					// 既存のウィンドウを削除して先頭に追加
-					const reorderedWindows = [
-						targetApp,
-						...restoredWindows.filter(w => w.title !== targetApp.title)
-					]
+					const reorderedWindows = [targetApp, ...restoredWindows.filter((w) => w.title !== targetApp.title)]
 					setWindows(reorderedWindows)
 					return
 				} else {
@@ -86,7 +82,7 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 		// 初期化中は保存しない（初期化中の空配列が保存されるのを防ぐ）
 		if (isInitialLoad) return
 
-		const titles = windows.map(w => w.title)
+		const titles = windows.map((w) => w.title)
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(titles))
 	}, [windows, isInitialLoad])
 
@@ -107,16 +103,12 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 
 	return (
 		<>
-			<div className='flex items-center justify-center w-full'>
-				<div className='flex flex-col gap-4 w-full items-center justify-center max-w-[1200px] mt-10 sm:mb-30 mb-24 min-h-[calc(100vh-200px)] sm:mx-10 mx-4'>
+			<div className="flex items-center justify-center w-full">
+				<div className="flex flex-col gap-4 w-full items-center justify-center max-w-[1200px] mt-10 sm:mb-30 mb-24 min-h-[calc(100vh-200px)] sm:mx-10 mx-4">
 					{isInitialLoad ? (
-						<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
-							読み込み中...
-						</p>
+						<p className="text-black/70 dark:text-white/70 text-6xl font-bold">読み込み中...</p>
 					) : windows.length === 0 ? (
-						<p className='text-black/70 dark:text-white/70 text-6xl font-bold'>
-							下のDockからアプリを開いてみましょう
-						</p>
+						<p className="text-black/70 dark:text-white/70 text-6xl font-bold">下のDockからアプリを開いてみましょう</p>
 					) : (
 						windows.map((window) => (
 							<Window
@@ -133,13 +125,8 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 				</div>
 			</div>
 			<div>
-				<Notification isVisible={isCopied} message='URLをコピーしました' type="success" />
-				<Dock
-					apps={apps}
-					activeApps={windows}
-					onClick={openWindow}
-					onReorder={(windows) => setWindows(windows)}
-				/>
+				<Notification isVisible={isCopied} message="URLをコピーしました" type="success" />
+				<Dock apps={apps} activeApps={windows} onClick={openWindow} onReorder={(windows) => setWindows(windows)} />
 			</div>
 		</>
 	)

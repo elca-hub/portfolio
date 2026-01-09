@@ -1,7 +1,5 @@
-import IllustrationsContainer from "../_containers/illustrations/container";
+import IllustrationsContainer from '../_containers/illustrations/container'
 
 export default function AboutMePage() {
-  return (
-    <IllustrationsContainer isWindow={true} />
-  )
+	return <IllustrationsContainer isWindow={true} />
 }

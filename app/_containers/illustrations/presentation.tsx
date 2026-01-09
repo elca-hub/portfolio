@@ -1,7 +1,7 @@
 'use client'
 
-import Window from '@/components/ui/window/Window';
-import IllustrationsContent from './content';
+import Window from '@/components/ui/window/Window'
+import IllustrationsContent from './content'
 
 /**
  * @package
@@ -17,5 +17,5 @@ export default function IllustrationsPresentation({ isWindow = false }: { isWind
 				<IllustrationsContent />
 			)}
 		</>
-	);
+	)
 }

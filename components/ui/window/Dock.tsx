@@ -4,11 +4,11 @@ import { AppIconType, AppType } from '@/const/appType'
 import React, { useState } from 'react'
 import { Button, Dialog, DialogTrigger, GridList, GridListItem, Heading, Modal, ModalOverlay, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
-import { LuArrowRightToLine } from "react-icons/lu"
+import { LuArrowRightToLine } from 'react-icons/lu'
 import { MdClose } from 'react-icons/md'
 
 interface DockProps {
-	apps: Record<string, AppType>,
+	apps: Record<string, AppType>
 	/**
 	 * 現在アクティブな（ウインドウが開いている）アプリ
 	 */
@@ -24,28 +24,38 @@ interface DockProps {
 	className?: string
 }
 
-function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[], onClick: (app: AppType) => void, onReorder: (apps: AppType[]) => void }) {
+function AppList({
+	initialItems,
+	onClick,
+	onReorder,
+}: {
+	initialItems: AppType[]
+	onClick: (app: AppType) => void
+	onReorder: (apps: AppType[]) => void
+}) {
 	let { dragAndDropHooks } = useDragAndDrop({
 		getItems(keys) {
 			// 選択中キーに対応するアプリ情報を渡す
-			return initialItems.filter(item => keys.has(item.title)).map(item => ({
-				'text/plain': item.title,
-				'app': JSON.stringify(item),
-			}))
+			return initialItems
+				.filter((item) => keys.has(item.title))
+				.map((item) => ({
+					'text/plain': item.title,
+					app: JSON.stringify(item),
+				}))
 		},
 		onReorder(e) {
 			if (!e.target.key) return
 
 			// 現在の配列からドラッグ対象とそれ以外を分割
 			const draggedKeys = Array.from(e.keys)
-			const draggedItems = initialItems.filter(item => draggedKeys.includes(item.title))
-			const remainingItems = initialItems.filter(item => !draggedKeys.includes(item.title))
+			const draggedItems = initialItems.filter((item) => draggedKeys.includes(item.title))
+			const remainingItems = initialItems.filter((item) => !draggedKeys.includes(item.title))
 
 			// ドロップ先のインデックスを計算
-			const targetIndex = remainingItems.findIndex(item => item.title === e.target.key)
+			const targetIndex = remainingItems.findIndex((item) => item.title === e.target.key)
 			if (targetIndex === -1) {
 				onReorder(initialItems)
-				return;
+				return
 			}
 
 			let insertIndex = targetIndex
@@ -53,15 +63,11 @@ function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[]
 				insertIndex += 1
 			}
 
-			const nextItems = [
-				...remainingItems.slice(0, insertIndex),
-				...draggedItems,
-				...remainingItems.slice(insertIndex),
-			]
+			const nextItems = [...remainingItems.slice(0, insertIndex), ...draggedItems, ...remainingItems.slice(insertIndex)]
 
 			// 親(Home)の windows を並び替え
 			onReorder(nextItems)
-		}
+		},
 	})
 
 	return (
@@ -75,11 +81,7 @@ function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[]
 			{initialItems.map((item) => {
 				const Icon = item.icon
 				return (
-					<GridListItem
-						id={item.title}
-						key={item.title}
-						textValue={item.title}
-					>
+					<GridListItem id={item.title} key={item.title} textValue={item.title}>
 						<AppIcon icon={Icon} onPress={() => onClick(item)} />
 					</GridListItem>
 				)
@@ -88,11 +90,14 @@ function AppList({ initialItems, onClick, onReorder }: { initialItems: AppType[]
 	)
 }
 
-function AppIcon({ icon, title, onPress }: { icon: AppIconType, title?: string, onPress: () => void }) {
+function AppIcon({ icon, title, onPress }: { icon: AppIconType; title?: string; onPress: () => void }) {
 	return (
-		<Button className="group relative flex flex-col items-center justify-center sm:p-2 p-1 cursor-pointer transition-all duration-300 hover:scale-95" onPress={onPress}>
+		<Button
+			className="group relative flex flex-col items-center justify-center sm:p-2 p-1 cursor-pointer transition-all duration-300 hover:scale-95"
+			onPress={onPress}
+		>
 			<div className="flex items-center justify-center sm:size-12 size-10 rounded-2xl transition-all duration-300 group-hover:bg-white/10">
-				{React.cloneElement(icon, { className: "size-8 text-white/90 group-hover:text-white transition-colors duration-300" })}
+				{React.cloneElement(icon, { className: 'size-8 text-white/90 group-hover:text-white transition-colors duration-300' })}
 			</div>
 			{title && <span className="text-lg text-white/90">{title}</span>}
 		</Button>
@@ -123,23 +128,17 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 		>
 			{!isCompactMode && (
 				<>
-					<AppList
-						key={activeApps.map((app) => app.title).join('|')}
-						initialItems={activeApps}
-						onClick={onClick}
-						onReorder={onReorder}
-					/>
+					<AppList key={activeApps.map((app) => app.title).join('|')} initialItems={activeApps} onClick={onClick} onReorder={onReorder} />
 
 					{/* 区切りの縦棒 */}
 					<div className="h-10 w-px bg-white/20 rounded-full sm:block hidden" />
-
 				</>
 			)}
 
 			{/* Apps 一覧ポップアップボタン */}
 			<div className="relative">
 				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
-					<AppIcon icon={<GrAppsRounded />} onPress={() => { }} />
+					<AppIcon icon={<GrAppsRounded />} onPress={() => {}} />
 					<ModalOverlay className="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
 						<Modal isDismissable className="sm:min-w-[600px] min-w-full">
 							<Dialog className="bg-black/20 border border-white/10 shadow-lg p-4 rounded-3xl mx-4 sm:mx-0">
@@ -156,10 +155,14 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 										const Icon = app.icon
 										return (
 											<GridListItem key={index}>
-												<AppIcon icon={Icon} title={app.title} onPress={() => {
-													onClick(app)
-													setIsModalOpen(false)
-												}} />
+												<AppIcon
+													icon={Icon}
+													title={app.title}
+													onPress={() => {
+														onClick(app)
+														setIsModalOpen(false)
+													}}
+												/>
 											</GridListItem>
 										)
 									})}
@@ -172,7 +175,12 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 
 			<div className="relative sm:block hidden">
 				<div className={`transition-all duration-500 ${isCompactMode && 'rotate-180'}`}>
-					<AppIcon icon={<LuArrowRightToLine />} onPress={() => { setIsCompactMode(!isCompactMode) }} />
+					<AppIcon
+						icon={<LuArrowRightToLine />}
+						onPress={() => {
+							setIsCompactMode(!isCompactMode)
+						}}
+					/>
 				</div>
 			</div>
 		</div>

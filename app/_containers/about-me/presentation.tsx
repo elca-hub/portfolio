@@ -1,7 +1,7 @@
 'use client'
 
-import Window from '@/components/ui/window/Window';
-import AboutMeContent from './content';
+import Window from '@/components/ui/window/Window'
+import AboutMeContent from './content'
 
 /**
  * @package
@@ -17,5 +17,5 @@ export default function AboutMePresentation({ isWindow = false }: { isWindow?: b
 				<AboutMeContent />
 			)}
 		</>
-	);
+	)
 }
