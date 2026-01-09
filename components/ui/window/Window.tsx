@@ -70,7 +70,7 @@ export default function Window({
 		<div
 			className={`
 				relative p-4 rounded-3xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg
-				${isMaximized ? 'absolute top-0 left-0 w-full h-full' : 'w-full h-full'}
+				${isMaximized ? 'absolute inset-0 w-full h-full overflow-y-scroll' : 'w-full h-full'}
 			`}
 		>
 			<div className="mb-4 grid sm:grid-cols-3 grid-cols-2">
