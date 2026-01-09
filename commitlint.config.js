@@ -8,6 +8,7 @@ module.exports = {
       'update',
       'style',
       'chore',
+      'fix',
     ]],
     'subject-max-length': [2, 'always', 50],
   }
