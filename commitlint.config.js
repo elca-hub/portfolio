@@ -1,12 +1,13 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'scope-enum': [2, 'always', [
+    'type-enum': [2, 'always', [
       'add',
       'remove',
       'update',
       'update',
       'style'
-    ]]
+    ]],
+    'body-max-line-length': [2, 'always', 50],
   }
 }
