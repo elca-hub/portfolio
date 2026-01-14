@@ -1,9 +1,10 @@
 'use server'
 
 import HomePresentation from '@/app/_containers/home/presentation'
+import HeadContent from '@/components/layout/HeadContent'
 import { AppType } from '@/const/appType'
 import { FaPaintBrush } from 'react-icons/fa'
-import { FiFolder, FiUser } from 'react-icons/fi'
+import { FiUser } from 'react-icons/fi'
 import AboutMeContainer from '../about-me/container'
 import IllustrationsContainer from '../illustrations/container'
 
@@ -15,12 +16,6 @@ export default async function HomeContainer() {
 			redirectUrl: '/about-me',
 			icon: <FiUser />,
 		},
-		projects: {
-			title: 'Projects',
-			content: <AboutMeContainer />,
-			redirectUrl: '/projects',
-			icon: <FiFolder />,
-		},
 		illustrations: {
 			title: 'Illustrations',
 			content: <IllustrationsContainer />,
@@ -28,10 +23,11 @@ export default async function HomeContainer() {
 			icon: <FaPaintBrush />,
 		},
 	}
-	const defaultActiveApps = [apps.aboutMe, apps.projects]
+	const defaultActiveApps = [apps.aboutMe, apps.illustrations]
 
 	return (
 		<>
+			<HeadContent title="Home" des="elcaのポートフォリオサイト" />
 			<HomePresentation apps={apps} defaultActiveApps={defaultActiveApps} />
 		</>
 	)

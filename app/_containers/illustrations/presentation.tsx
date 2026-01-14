@@ -14,7 +14,9 @@ export default function IllustrationsPresentation({ isWindow = false }: { isWind
 					<IllustrationsContent />
 				</Window>
 			) : (
-				<IllustrationsContent />
+				<>
+					<IllustrationsContent />
+				</>
 			)}
 		</>
 	)
