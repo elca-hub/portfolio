@@ -1,6 +1,5 @@
 'use client'
 
-import HeadContent from '@/components/layout/HeadContent'
 import Window from '@/components/ui/window/Window'
 import AboutMeContent from './content'
 
@@ -16,7 +15,6 @@ export default function AboutMePresentation({ isWindow = false }: { isWindow?: b
 				</Window>
 			) : (
 				<>
-					<HeadContent title="About Me" des="elcaの生態について知ることができます" />
 					<AboutMeContent />
 				</>
 			)}
