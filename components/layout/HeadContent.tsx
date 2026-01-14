@@ -10,6 +10,7 @@ const HeadContent = ({ title, des }: HeadContentProps) => {
 		<>
 			<title>{`${title} | elcaのポートフォリオサイト`}</title>
 			<meta name="description" content={des} />
+			<link rel="icon" href="/favicon.ico" sizes="any" />
 		</>
 	)
 }
