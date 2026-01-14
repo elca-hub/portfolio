@@ -56,6 +56,7 @@ export default function WorksContent() {
 			title: 'TREE',
 			description: '学内の蔵書管理システム',
 			projectName: 'tree',
+			githubUrl: 'https://github.com/booksearch-hotate/hotate-server',
 		},
 		{
 			title: 'あーぷっと',
