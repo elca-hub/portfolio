@@ -1,28 +1,32 @@
 import ModalWindow from '@/components/ui/window/ModalWindow'
 import Image from 'next/image'
-import { DialogTrigger, Pressable } from 'react-aria-components'
+import { useState } from 'react'
+import { Button } from 'react-aria-components'
 import { MdZoomOutMap } from 'react-icons/md'
 
 function IllustrationItem({ file, title, description }: { file: string; title: string; description: string }) {
+	const [isOpen, setIsOpen] = useState(false)
+	const handleOpen = () => {
+		setIsOpen(true)
+	}
+	const handleClose = () => {
+		setIsOpen(false)
+	}
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
 			<div className="relative h-[30vh] w-full overflow-hidden rounded-lg">
 				<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-full w-full object-cover" />
-				<DialogTrigger>
-					<Pressable>
-						<span
-							role="button"
-							className="absolute right-2 bottom-2 flex cursor-pointer items-center justify-center rounded-full bg-black/50 p-4 backdrop-blur-xl transition-all duration-300 hover:scale-95 hover:bg-black/70"
-						>
-							<MdZoomOutMap className="size-8 text-white" />
-						</span>
-					</Pressable>
-					<ModalWindow title={title}>
-						<div className="flex items-center justify-center">
-							<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
-						</div>
-					</ModalWindow>
-				</DialogTrigger>
+				<Button
+					className="absolute right-2 bottom-2 flex cursor-pointer items-center justify-center rounded-full bg-black/50 p-4 backdrop-blur-xl transition-all duration-300 hover:scale-95 hover:bg-black/70"
+					onPress={handleOpen}
+				>
+					<MdZoomOutMap className="size-8 text-white" />
+				</Button>
+				<ModalWindow title={title} isOpen={isOpen} onClose={handleClose}>
+					<div className="flex items-center justify-center">
+						<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
+					</div>
+				</ModalWindow>
 			</div>
 			<h2 className="text-2xl font-bold">{title}</h2>
 			<p className="text-md text-center text-gray-100">{description}</p>
