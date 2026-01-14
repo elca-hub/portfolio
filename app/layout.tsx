@@ -1,6 +1,7 @@
 import { InteractiveBackground } from '@/components/ui/background/InteractiveBackground'
 import type { Metadata } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
+import { Suspense } from 'react'
 import './globals.css'
 
 const notoSansJP = Noto_Sans_JP({
@@ -21,7 +22,9 @@ export default function RootLayout({
 	return (
 		<html lang="ja">
 			<body className={`${notoSansJP.variable} antialiased`}>
-				<InteractiveBackground breathsPerMinute={5}>{children}</InteractiveBackground>
+				<InteractiveBackground breathsPerMinute={5}>
+					<Suspense>{children}</Suspense>
+				</InteractiveBackground>
 			</body>
 		</html>
 	)
