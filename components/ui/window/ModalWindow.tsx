@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { motion } from 'framer-motion'
 import { Dialog, Modal, ModalOverlay } from 'react-aria-components'
 import WindowButtons from './WindowButtons'
 
