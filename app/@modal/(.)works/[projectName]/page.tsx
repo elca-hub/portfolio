@@ -37,7 +37,7 @@ export default function WorksProjectPage() {
 	const title = `Works - ${projectName.toUpperCase()}`
 
 	const body = (
-		<div className="prose prose-invert max-w-none">
+		<div className="prose prose-invert max-w-none text-white">
 			{isLoading && <p>読み込み中です...</p>}
 			{error && <p>{error}</p>}
 			{!isLoading && !error && <ReactMarkdown>{content}</ReactMarkdown>}
