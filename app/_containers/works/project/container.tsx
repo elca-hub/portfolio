@@ -1,7 +1,7 @@
 'use server'
 
 import fetchReadme from '@/action/works/fetchReadme'
-import ReactMarkdown from 'react-markdown'
+import CustomMarkdown from '@/components/layout/markdown/CustomMarkdown'
 import WorkProjectModalPresentation from './modalPresentation'
 import WorkProjectPresentation from './presentation'
 
@@ -20,10 +20,10 @@ export default async function WorkProjectContainer({
 		readme = `# エラーが発生しました\n\n再度アクセスしてください。`
 	}
 
-	const readmeConverted = <ReactMarkdown>{readme}</ReactMarkdown>
+	const readmeConverted = <CustomMarkdown>{readme}</CustomMarkdown>
 
 	return isModal ? (
-		<WorkProjectModalPresentation projectName={projectName} readme={readmeConverted} />
+		<WorkProjectModalPresentation projectName={projectName} readme={<div className="text-white">{readmeConverted}</div>} />
 	) : (
 		<WorkProjectPresentation projectName={projectName} readme={readmeConverted} />
 	)
