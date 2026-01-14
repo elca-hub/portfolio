@@ -1,6 +1,7 @@
 'use server'
 
 import HomePresentation from '@/app/_containers/home/presentation'
+import HeadContent from '@/components/layout/HeadContent'
 import { AppType } from '@/const/appType'
 import { FaPaintBrush } from 'react-icons/fa'
 import { FiUser } from 'react-icons/fi'
@@ -26,6 +27,7 @@ export default async function HomeContainer() {
 
 	return (
 		<>
+			<HeadContent title="Home" des="elcaのポートフォリオサイト" />
 			<HomePresentation apps={apps} defaultActiveApps={defaultActiveApps} />
 		</>
 	)
