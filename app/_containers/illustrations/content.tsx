@@ -1,9 +1,29 @@
+import ModalWindow from '@/components/ui/window/ModalWindow'
 import Image from 'next/image'
+import { DialogTrigger, Pressable } from 'react-aria-components'
+import { MdZoomOutMap } from 'react-icons/md'
 
 function IllustrationItem({ file, title, description }: { file: string; title: string; description: string }) {
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
-			<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-[30vh] w-full rounded-lg object-cover" />
+			<div className="relative h-[30vh] w-full overflow-hidden rounded-lg">
+				<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-full w-full object-cover" />
+				<DialogTrigger>
+					<Pressable>
+						<span
+							role="button"
+							className="absolute right-2 bottom-2 flex cursor-pointer items-center justify-center rounded-full bg-black/50 p-4 backdrop-blur-xl transition-all duration-300 hover:scale-95 hover:bg-black/70"
+						>
+							<MdZoomOutMap className="size-8 text-white" />
+						</span>
+					</Pressable>
+					<ModalWindow title={title}>
+						<div className="flex items-center justify-center">
+							<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
+						</div>
+					</ModalWindow>
+				</DialogTrigger>
+			</div>
 			<h2 className="text-2xl font-bold">{title}</h2>
 			<p className="text-md text-center text-gray-100">{description}</p>
 		</section>
@@ -19,8 +39,8 @@ export default function IllustrationsContent() {
 		},
 		{
 			file: '2',
-			title: 'ベー',
-			description: '証明写真という、本来は正しく正面から撮るべき場面で抗心を露わにした少女を描きました。',
+			title: '原神より「煙緋」',
+			description: '原神より、煙緋を参考に描きました。個人的に一番好きなキャラクターなので、割と丁寧に描いた方です。',
 		},
 		{
 			file: '3',
@@ -29,8 +49,8 @@ export default function IllustrationsContent() {
 		},
 		{
 			file: '4',
-			title: 'はっ、よっ、ほっ！',
-			description: '原神より、煙緋を参考に描きました。個人的に一番好きなキャラクターなので、割と丁寧に描いた方です。',
+			title: 'ベー',
+			description: 'なんとなく横顔描いてたらいい感じに描けました。横の状態からベロを出すのがとても難しい...まだまだ研究しないとですね。',
 		},
 	]
 

@@ -78,6 +78,7 @@ export default function Window({
 						onMaximize={handleMaximize}
 						isEnabledMinimize={!isMaximized}
 						isEnabledMaximize={!isHidden}
+						isEnabledClose={!isMaximized}
 					/>
 				</div>
 				<div className="flex items-center justify-center">

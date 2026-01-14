@@ -7,12 +7,14 @@ import { MdClose, MdOutlineCloseFullscreen, MdZoomInMap, MdZoomOutMap } from 're
 export default function WindowButtons({
 	isEnabledMinimize,
 	isEnabledMaximize,
+	isEnabledClose,
 	onClose,
 	onMinimize,
 	onMaximize,
 }: {
 	isEnabledMinimize: boolean
 	isEnabledMaximize: boolean
+	isEnabledClose: boolean
 	onClose: () => void
 	onMinimize: () => void
 	onMaximize: () => void
@@ -41,9 +43,10 @@ export default function WindowButtons({
 			onTouchStart={() => setIsExpanded(true)}
 		>
 			<Button
-				className={`bg-red-400 ${buttonComponentStyle} ${!isEnabledMinimize && buttonDisabledStyle}`}
+				slot="close"
+				className={`bg-red-400 ${buttonComponentStyle} ${!isEnabledClose && buttonDisabledStyle}`}
 				onPress={onClose}
-				isDisabled={!isEnabledMinimize}
+				isDisabled={!isEnabledClose}
 			>
 				<MdClose className={buttonIconStyle} />
 			</Button>

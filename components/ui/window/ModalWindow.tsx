@@ -1,0 +1,45 @@
+'use client'
+
+import { motion } from 'motion/react'
+import { Dialog, Modal, ModalOverlay } from 'react-aria-components'
+import WindowButtons from './WindowButtons'
+
+export default function ModalWindow({ title, children }: { title: string; children: React.ReactNode }) {
+	return (
+		<ModalOverlay className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+			<Modal isDismissable className="min-w-full sm:min-w-[600px]">
+				<Dialog className="mx-4 rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
+					<motion.div
+						initial={{ opacity: 0, y: 100 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 100 }}
+						transition={{ duration: 0.3, ease: 'easeInOut' }}
+					>
+						<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
+							<div>
+								<WindowButtons
+									isEnabledClose={true}
+									onClose={() => {}}
+									onMinimize={() => {}}
+									onMaximize={() => {}}
+									isEnabledMinimize={false}
+									isEnabledMaximize={false}
+								/>
+							</div>
+							<div className="flex items-center justify-center">
+								<h1
+									slot="title"
+									className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
+									title="クリックしてURLをコピー"
+								>
+									{title}
+								</h1>
+							</div>
+						</div>
+						{children}
+					</motion.div>
+				</Dialog>
+			</Modal>
+		</ModalOverlay>
+	)
+}
