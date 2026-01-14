@@ -90,11 +90,12 @@ function AppList({
 	)
 }
 
-function AppIcon({ icon, title, onPress }: { icon: AppIconType; title?: string; onPress: () => void }) {
+function AppIcon({ icon, title, onPress, dataTestId }: { icon: AppIconType; title?: string; onPress: () => void; dataTestId?: string }) {
 	return (
 		<Button
 			className="group relative flex cursor-pointer flex-col items-center justify-center p-1 transition-all duration-300 hover:scale-95 sm:p-2"
 			onPress={onPress}
+			data-testid={dataTestId}
 		>
 			<div className="flex size-10 items-center justify-center rounded-2xl transition-all duration-300 group-hover:bg-white/10 sm:size-12">
 				{React.cloneElement(icon, { className: 'size-8 text-white/90 group-hover:text-white transition-colors duration-300' })}
@@ -125,7 +126,7 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 			{/* Apps 一覧ポップアップボタン */}
 			<div className="relative">
 				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
-					<AppIcon icon={<GrAppsRounded />} onPress={() => {}} />
+					<AppIcon icon={<GrAppsRounded />} onPress={() => {}} dataTestId="app-list-trigger" />
 					<ModalOverlay className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
 						<Modal isDismissable className="min-w-full sm:min-w-[600px]">
 							<Dialog className="mx-4 rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
