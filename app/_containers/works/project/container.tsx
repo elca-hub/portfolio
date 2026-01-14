@@ -1,6 +1,7 @@
 'use server'
 
 import fetchReadme from '@/action/works/fetchReadme'
+import ReactMarkdown from 'react-markdown'
 import WorkProjectModalPresentation from './modalPresentation'
 import WorkProjectPresentation from './presentation'
 
@@ -16,12 +17,14 @@ export default async function WorkProjectContainer({
 		readme = await fetchReadme(projectName)
 	} catch (error) {
 		console.error(error)
-		readme = 'Error: Failed to fetch README.md'
+		readme = `# エラーが発生しました\n\n再度アクセスしてください。`
 	}
 
-	if (isModal) {
-		return <WorkProjectModalPresentation projectName={projectName} readme={readme} />
-	}
+	const readmeConverted = <ReactMarkdown>{readme}</ReactMarkdown>
 
-	return <WorkProjectPresentation projectName={projectName} readme={readme} />
+	return isModal ? (
+		<WorkProjectModalPresentation projectName={projectName} readme={readmeConverted} />
+	) : (
+		<WorkProjectPresentation projectName={projectName} readme={readmeConverted} />
+	)
 }
