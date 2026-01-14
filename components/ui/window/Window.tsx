@@ -68,7 +68,7 @@ export default function Window({
 
 	return (
 		<div
-			className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-y-scroll' : 'h-full w-full'} `}
+			className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-y-auto' : 'h-full w-full'} `}
 		>
 			<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
 				<div>
