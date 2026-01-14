@@ -4,9 +4,19 @@ import { motion } from 'framer-motion'
 import { Dialog, Modal, ModalOverlay } from 'react-aria-components'
 import WindowButtons from './WindowButtons'
 
-export default function ModalWindow({ title, children }: { title: string; children: React.ReactNode }) {
+export default function ModalWindow({
+	title,
+	children,
+	isOpen = false,
+	onClose,
+}: {
+	title: string
+	children: React.ReactNode
+	isOpen?: boolean
+	onClose?: () => void
+}) {
 	return (
-		<ModalOverlay className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+		<ModalOverlay isOpen={isOpen} className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
 			<Modal isDismissable className="min-w-full sm:min-w-[600px]">
 				<Dialog className="mx-4 rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
 					<motion.div
@@ -19,7 +29,7 @@ export default function ModalWindow({ title, children }: { title: string; childr
 							<div>
 								<WindowButtons
 									isEnabledClose={true}
-									onClose={() => {}}
+									onClose={onClose ?? (() => {})}
 									onMinimize={() => {}}
 									onMaximize={() => {}}
 									isEnabledMinimize={false}
