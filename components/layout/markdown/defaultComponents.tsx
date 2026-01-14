@@ -73,9 +73,9 @@ export const defaultComponents: CustomComponents = {
 		<Image
 			src={src as string}
 			alt={alt || ''}
-			width={400}
-			height={250}
-			className="pointer-events-none mx-auto mb-4 h-[200px] max-w-full rounded-lg object-contain select-none md:max-w-3xl"
+			width={1000}
+			height={1000}
+			className="pointer-events-none mx-auto mb-4 h-auto max-w-full rounded-lg object-contain select-none md:max-w-3xl"
 			unoptimized
 		/>
 	),
