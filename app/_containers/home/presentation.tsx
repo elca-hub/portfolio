@@ -106,9 +106,9 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 			<div className="flex w-full items-center justify-center">
 				<div className="mx-4 mt-10 mb-24 flex min-h-[calc(100vh-200px)] w-full max-w-[1200px] flex-col items-center justify-center gap-4 sm:mx-10 sm:mb-30">
 					{isInitialLoad ? (
-						<p className="text-6xl font-bold text-black/70 dark:text-white/70">読み込み中...</p>
+						<p className="text-4xl font-bold text-black/70 dark:text-white/70">読み込み中...</p>
 					) : windows.length === 0 ? (
-						<p className="text-6xl font-bold text-black/70 dark:text-white/70">下のDockからアプリを開いてみましょう</p>
+						<p className="text-4xl font-bold text-black/70 dark:text-white/70">下のDockからアプリを開いてみましょう</p>
 					) : (
 						windows.map((window) => (
 							<Window
