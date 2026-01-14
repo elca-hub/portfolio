@@ -47,6 +47,7 @@ export default function WindowButtons({
 				className={`bg-red-400 ${buttonComponentStyle} ${!isEnabledClose && buttonDisabledStyle}`}
 				onPress={onClose}
 				isDisabled={!isEnabledClose}
+				data-testid="window-close-button"
 			>
 				<MdClose className={buttonIconStyle} />
 			</Button>
@@ -54,6 +55,7 @@ export default function WindowButtons({
 				className={`bg-yellow-400 ${buttonComponentStyle} ${!isEnabledMinimize && buttonDisabledStyle}`}
 				onPress={onMinimize}
 				isDisabled={!isEnabledMinimize}
+				data-testid="window-minimize-button"
 			>
 				<MdOutlineCloseFullscreen className={buttonIconStyle} />
 			</Button>
@@ -61,6 +63,7 @@ export default function WindowButtons({
 				className={`bg-green-600 ${buttonComponentStyle} ${!isEnabledMaximize && buttonDisabledStyle}`}
 				onPress={onMaximize}
 				isDisabled={!isEnabledMaximize}
+				data-testid="window-maximize-button"
 			>
 				{isEnabledMaximize && !isEnabledMinimize ? <MdZoomInMap className={buttonIconStyle} /> : <MdZoomOutMap className={buttonIconStyle} />}
 			</Button>

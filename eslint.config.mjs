@@ -46,6 +46,7 @@ const eslintConfig = [
       "build/*",
       "eslint.config.mjs",
       "postcss.config.mjs",
+      ".storybook/*",
     ]
   },
 ];
