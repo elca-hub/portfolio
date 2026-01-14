@@ -72,6 +72,24 @@ export default function AboutMeContent() {
 					/>
 				</p>
 			</section>
+			<section>
+				<h2 className="mb-4 text-center text-2xl font-bold">My Favorites</h2>
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+					<AboutSectionItem
+						title="ドライブ"
+						value="運転してる時はそのことにしか集中しないので、嫌なことや行き詰まったことも一旦忘れて冷静に考えられるので好きです！"
+					/>
+					<AboutSectionItem
+						title="イラスト"
+						value="高校2年生の頃からチマチマ描いています。自分のアイコンを自分で描けば著作権とか気にせずアイコンにできるんじゃね！？という天才的な発想から始まりました。"
+					/>
+					<AboutSectionItem title="アニメ" value="中学2年から没頭しました。けいおん！やホリミヤ、涼宮ハルヒの憂鬱などが推しアニメです。" />
+					<AboutSectionItem
+						title="ゲーム"
+						value="あまりゲーム自体はしませんが、小島秀夫監督作品やNieRシリーズといった、ストーリーが奥深いゲームはよくプレイしてます。"
+					/>
+				</div>
+			</section>
 		</article>
 	)
 }
