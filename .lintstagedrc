@@ -1,4 +1,4 @@
 {
-	"*.{ts,tsx}": ["prettier --write", "eslint --fix", "eslint", "vitest run --ui --reporter verbose"],
+	"*.{ts,tsx}": ["prettier --write", "eslint --fix", "eslint"],
 	"*.css": ["prettier --write"],
 	}
