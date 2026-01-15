@@ -2,6 +2,7 @@
 
 import PFButton from '@/components/ui/button/PFButton'
 import TextWithIcon from '@/components/ui/text/textWithIcon'
+import { works } from '@/const/works'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FaGithub } from 'react-icons/fa'
@@ -42,26 +43,6 @@ function WorkItem({
 
 export default function WorksContent() {
 	const router = useRouter()
-
-	const works = [
-		{
-			title: 'TREE',
-			description: '学内の蔵書管理システム',
-			projectName: 'tree',
-			githubUrl: 'https://github.com/booksearch-hotate/hotate-server',
-		},
-		{
-			title: 'あーぷっと',
-			description: '大学コミュニティ内のアウトプットツール',
-			projectName: 'arput',
-			githubUrl: 'https://github.com/elca-hub/smapro-hackathon',
-		},
-		{
-			title: 'SAKITO(インフラ)',
-			description: '学内向けアプリのインフラ移行',
-			projectName: 'sakito-infra',
-		},
-	]
 
 	const handleOpenDetail = (projectName: string) => {
 		router.push(`/works/${projectName}`)
