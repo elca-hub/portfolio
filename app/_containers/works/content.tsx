@@ -71,7 +71,7 @@ export default function WorksContent() {
 	}
 
 	return (
-		<article className="grid grid-cols-1 items-start gap-4 sm:grid-cols-3">
+		<article className="grid grid-cols-1 items-start gap-8 sm:grid-cols-3">
 			{works.map((work) => (
 				<WorkItem key={work.title} {...work} onOpenDetail={handleOpenDetail} />
 			))}
