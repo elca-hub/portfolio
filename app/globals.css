@@ -5,11 +5,23 @@
 	--foreground: #171717;
 }
 
-@theme inline {
+@theme {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
+	--height-screen: 100dvh;
+	--min-height-screen: 100dvh;
+}
+
+@layer base {
+	.h-screen {
+		height: var(--height-screen);
+	}
+
+	.min-h-screen {
+		min-height: var(--min-height-screen);
+	}
 }
 
 @media (prefers-color-scheme: dark) {
