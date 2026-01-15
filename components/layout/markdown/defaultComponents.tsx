@@ -8,13 +8,13 @@ export const defaultComponents: CustomComponents = {
 	p: ({ children, ...props }) => {
 		if (typeof children === 'string') {
 			return (
-				<p className="mb-4 text-gray-300" {...props}>
+				<p className="text-md mb-4 text-gray-300" {...props}>
 					<BudouXText text={children as string} />
 				</p>
 			)
 		}
 		return (
-			<p className="mb-4 text-gray-300" {...props}>
+			<p className="text-md mb-4 text-gray-300" {...props}>
 				{children}
 			</p>
 		)

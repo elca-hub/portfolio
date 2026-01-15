@@ -56,6 +56,11 @@ export default function WorksContent() {
 			projectName: 'arput',
 			githubUrl: 'https://github.com/elca-hub/smapro-hackathon',
 		},
+		{
+			title: 'SAKITO(インフラ)',
+			description: '学内向けアプリのインフラ移行',
+			projectName: 'sakito-infra',
+		},
 	]
 
 	const handleOpenDetail = (projectName: string) => {
