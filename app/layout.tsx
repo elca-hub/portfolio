@@ -17,17 +17,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ja">
-			<body className={`${notoSansJP.variable} antialiased`}>
+			<body className={`${notoSansJP.variable} bg-gray-300 antialiased dark:bg-slate-950`}>
 				<InteractiveBackground breathsPerMinute={5}>
 					<Suspense>
 						{children}
 						{modal}
 					</Suspense>
 				</InteractiveBackground>
-				{/* ios27のステータスバー透過防止 */}
-				<div className="pointer-events-none fixed top-0 h-[5px] w-full bg-black mix-blend-lighten"></div>
-				{/* ios27のタブバー透過防止 */}
-				<div className="pointer-events-none fixed bottom-0 h-[4px] w-full bg-black mix-blend-lighten"></div>
 			</body>
 		</html>
 	)
