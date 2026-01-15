@@ -2,7 +2,12 @@ import 'server-only'
 
 export default async function fetchReadme(projectName: string): Promise<string> {
 	const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://portfolio.elca-web.com'
-	const res = await fetch(`${domain}/works/${projectName}/README.md`)
+	const res = await fetch(`${domain}/works/${projectName}/README.md`, {
+		next: {
+			tags: ['works', projectName],
+			revalidate: 60 * 60 * 24,
+		},
+	})
 	if (!res.ok) {
 		throw new Error(`README.md が見つかりませんでした (status: ${res.status})`)
 	}
