@@ -12,15 +12,23 @@
 	--font-mono: var(--font-geist-mono);
 	--height-screen: 100dvh;
 	--min-height-screen: 100dvh;
+	--max-height-screen: 100dvh;
 }
 
 @layer base {
 	.h-screen {
 		height: var(--height-screen);
+		height: 100vh;
 	}
 
 	.min-h-screen {
 		min-height: var(--min-height-screen);
+		min-height: 100vh;
+	}
+
+	.max-h-screen {
+		max-height: var(--max-height-screen);
+		max-height: 100vh;
 	}
 }
 
