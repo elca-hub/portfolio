@@ -18,7 +18,7 @@ export default function ModalWindow({
 	return (
 		<ModalOverlay isOpen={isOpen} className="absolute inset-0 z-50 flex h-screen items-center justify-center bg-black/60 backdrop-blur-sm">
 			<Modal isDismissable className="w-full max-w-[90dvw] sm:min-w-[600px]">
-				<Dialog className="max-h-[80dvh] max-h-[80vh] overflow-y-auto rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
+				<Dialog className="max-h-[80svh] overflow-y-auto rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
 					<motion.div
 						initial={{ opacity: 0, y: 100 }}
 						animate={{ opacity: 1, y: 0 }}
