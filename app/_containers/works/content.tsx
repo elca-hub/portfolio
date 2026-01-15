@@ -1,5 +1,6 @@
 'use client'
 
+import PFButton from '@/components/ui/button/PFButton'
 import TextWithIcon from '@/components/ui/text/textWithIcon'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -26,22 +27,13 @@ function WorkItem({
 			</div>
 			<p className="text-md text-center text-gray-100">{description}</p>
 			<div className="flex w-full items-center justify-center gap-4">
-				<button
-					type="button"
-					className="text-md rounded-lg border border-gray-100 p-2 text-center text-gray-100 transition-colors duration-300 hover:bg-gray-100/10"
-					onClick={() => onOpenDetail(projectName)}
-				>
+				<PFButton type="button" onPress={() => onOpenDetail(projectName)}>
 					詳細を見る
-				</button>
+				</PFButton>
 				{githubUrl && (
-					<a
-						href={githubUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="text-md rounded-lg border border-gray-100 p-2 text-center text-gray-100 transition-colors duration-300 hover:bg-gray-100/10"
-					>
+					<PFButton href={githubUrl}>
 						<TextWithIcon icon={<FaGithub />}>GitHub</TextWithIcon>
-					</a>
+					</PFButton>
 				)}
 			</div>
 		</section>
