@@ -5,7 +5,7 @@ import HeadContent from '@/components/layout/HeadContent'
 import { apps } from '@/const/apps'
 
 export default async function HomeContainer() {
-	const defaultActiveApps = [apps.aboutMe, apps.illustrations]
+	const defaultActiveApps = [apps.aboutMe, apps.works, apps.illustrations]
 
 	return (
 		<>
