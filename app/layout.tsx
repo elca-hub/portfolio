@@ -10,14 +10,19 @@ const notoSansJP = Noto_Sans_JP({
 
 export default function RootLayout({
 	children,
+	modal,
 }: Readonly<{
 	children: React.ReactNode
+	modal: React.ReactNode
 }>) {
 	return (
 		<html lang="ja">
 			<body className={`${notoSansJP.variable} antialiased`}>
 				<InteractiveBackground breathsPerMinute={5}>
-					<Suspense>{children}</Suspense>
+					<Suspense>
+						{children}
+						{modal}
+					</Suspense>
 				</InteractiveBackground>
 			</body>
 		</html>

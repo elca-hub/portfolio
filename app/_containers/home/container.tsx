@@ -2,28 +2,10 @@
 
 import HomePresentation from '@/app/_containers/home/presentation'
 import HeadContent from '@/components/layout/HeadContent'
-import { AppType } from '@/const/appType'
-import { FaPaintBrush } from 'react-icons/fa'
-import { FiUser } from 'react-icons/fi'
-import AboutMeContainer from '../about-me/container'
-import IllustrationsContainer from '../illustrations/container'
+import { apps } from '@/const/apps'
 
 export default async function HomeContainer() {
-	const apps: Record<string, AppType> = {
-		aboutMe: {
-			title: 'About Me',
-			content: <AboutMeContainer />,
-			redirectUrl: '/about-me',
-			icon: <FiUser />,
-		},
-		illustrations: {
-			title: 'Illustrations',
-			content: <IllustrationsContainer />,
-			redirectUrl: '/illustrations',
-			icon: <FaPaintBrush />,
-		},
-	}
-	const defaultActiveApps = [apps.aboutMe, apps.illustrations]
+	const defaultActiveApps = [apps.aboutMe, apps.works, apps.illustrations]
 
 	return (
 		<>
