@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ja">
-			<body className={`${notoSansJP.variable} antialiased`}>
+			<body className={`${notoSansJP.variable} bg-gray-300 antialiased dark:bg-slate-950`}>
 				<InteractiveBackground breathsPerMinute={5}>
 					<Suspense>
 						{children}
