@@ -10,9 +10,9 @@
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
-	--height-screen: 100lvh;
-	--min-height-screen: 100lvh;
-	--max-height-screen: 100lvh;
+	--height-screen: 100dvh;
+	--min-height-screen: 100dvh;
+	--max-height-screen: 100dvh;
 }
 
 @media (prefers-color-scheme: dark) {
