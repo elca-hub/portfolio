@@ -1,6 +1,6 @@
 # SAKITOインフラ移行
 
-詳細は[qiita](https://qiita.com/elca/items/0f0f5ecaeddbb1ca8be5)で語ってます！
+**詳細は[qiita](https://qiita.com/elca/items/0f0f5ecaeddbb1ca8be5)で語ってます！**
 
 ## What is SAKITO?
 
