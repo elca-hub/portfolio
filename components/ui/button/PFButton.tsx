@@ -18,7 +18,7 @@ export default function PFButton({ children, href, ...restProps }: PFButtonProps
     hover:scale-95
     hover:bg-gray-100/10
     cursor-pointer
-    ${restProps.className}
+    ${restProps.className || ''}
   `
 	if (href) {
 		return (
