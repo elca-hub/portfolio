@@ -24,6 +24,10 @@ export default function RootLayout({
 						{modal}
 					</Suspense>
 				</InteractiveBackground>
+				{/* ios27のステータスバー透過防止 */}
+				<div className="pointer-events-none fixed top-0 h-[5px] w-full bg-black mix-blend-lighten"></div>
+				{/* ios27のタブバー透過防止 */}
+				<div className="pointer-events-none fixed bottom-0 h-[4px] w-full bg-black mix-blend-lighten"></div>
 			</body>
 		</html>
 	)
