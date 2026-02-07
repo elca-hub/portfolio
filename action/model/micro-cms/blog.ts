@@ -11,5 +11,5 @@ export type MicroCMSBlog = {
 		height: number
 		width: number
 	}
-	category: MicroCMSCategory
+	category?: MicroCMSCategory
 }
