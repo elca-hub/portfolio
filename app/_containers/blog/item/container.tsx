@@ -3,37 +3,37 @@
 import { fetchBlog } from '@/action/blog/fetchBlog'
 import HeadContent from '@/components/layout/HeadContent'
 import CustomMarkdown from '@/components/layout/markdown/CustomMarkdown'
-import { redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import TurndownService from 'turndown'
 import BlogItemModalPresentation from './modalPresentation'
 import BlogItemPresentation from './presentation'
 
 export default async function BlogItemContainer({ blogId, isModal = false }: { blogId: string; isModal?: boolean }): Promise<React.ReactNode> {
-	let content: string
-	let title: string
-	let eyecatch: {
-		url: string
+	const res = await fetchBlog(blogId)
+	if (res.error) {
+		if (res.error.message.includes('404')) {
+			return notFound()
+		}
+		return null // TODO: エラーハンドリング
 	}
-	try {
-		const res = await fetchBlog(blogId)
-		content = res.blog.content
-		title = res.blog.title
-		eyecatch = res.blog.eyecatch
-	} catch (error) {
-		console.error(error)
-		redirect('/blog')
+
+	if (!res.item) {
+		return null // TODO: エラーハンドリング
 	}
+
+	const blog = res.item
 
 	// microCMSはHTML形式で返すので一旦markdownに変換
 	const turnDownService = new TurndownService()
-	const contentConverted = <CustomMarkdown>{turnDownService.turndown(content)}</CustomMarkdown>
+	const markdown = turnDownService.turndown(blog.content)
+	const contentConverted = <CustomMarkdown>{markdown}</CustomMarkdown>
 
 	return isModal ? (
-		<BlogItemModalPresentation title={title} eyecatch={eyecatch} content={<div className="text-white">{contentConverted}</div>} />
+		<BlogItemModalPresentation blog={blog} content={<div className="text-white">{contentConverted}</div>} />
 	) : (
 		<>
-			<HeadContent title={`${title} | Blog`} des={content} />
-			<BlogItemPresentation title={title} eyecatch={eyecatch} content={contentConverted} />
+			<HeadContent title={`${blog.title} | Blog`} des={markdown} />
+			<BlogItemPresentation blog={blog} content={contentConverted} />
 		</>
 	)
 }

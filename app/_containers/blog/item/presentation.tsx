@@ -1,19 +1,19 @@
+import { MicroCMSBlog } from '@/action/model/micro-cms/blog'
 import Window from '@/components/ui/window/Window'
+import BlogItemThumbnail from './components/ui/thumbnail'
 
 interface BlogItemPresentationProps {
-	title: string
-	eyecatch: {
-		url: string
-	}
+	blog: MicroCMSBlog
 	content: React.ReactNode
 }
 
 /**
  * @package
  */
-export default function BlogItemPresentation({ title, eyecatch, content }: BlogItemPresentationProps) {
+export default function BlogItemPresentation({ blog, content }: BlogItemPresentationProps) {
 	return (
-		<Window title={title} isMaximized>
+		<Window title={blog.title} isMaximized>
+			<BlogItemThumbnail eyecatch={blog.eyecatch} alt={blog.title} />
 			{content}
 		</Window>
 	)

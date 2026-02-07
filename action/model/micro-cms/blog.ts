@@ -1,15 +1,11 @@
 import { MicroCMSCategory } from './category'
-
+import { MicroCMSEyecatch } from './eyecatch'
 export type MicroCMSBlog = {
 	id: string
 	content: string
 	title: string
 	publishedAt: Date
 	updatedAt: Date
-	eyecatch: {
-		url: string
-		height: number
-		width: number
-	}
+	eyecatch: MicroCMSEyecatch
 	category?: MicroCMSCategory
 }
