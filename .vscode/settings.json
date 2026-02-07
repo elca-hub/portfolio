@@ -9,5 +9,8 @@
   },
   "eslint.options": {
     "overrideConfigFile": "eslint.config.mjs"
-  }
+  },
+  "cSpell.words": [
+    "eyecatch"
+  ]
 }
