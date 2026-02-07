@@ -16,7 +16,7 @@ function BlogItem({ blog }: { blog: MicroCMSBlog }) {
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
 			<Image src={blog.eyecatch.url} alt={blog.title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
-			<h2 className="max-w-full overflow-x-hidden text-2xl font-bold overflow-ellipsis whitespace-nowrap">{blog.title}</h2>
+			<h2 className="max-w-full overflow-x-hidden pb-2 text-2xl font-bold overflow-ellipsis whitespace-nowrap">{blog.title}</h2>
 			<PFButton type="button" onPress={() => router.push(`/blog/${blog.id}`)} className="flex w-full items-center justify-center font-bold">
 				<TextWithIcon icon={<FaEye />} className="w-fit">
 					記事を見る
