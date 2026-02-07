@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Dialog, Modal, ModalOverlay } from 'react-aria-components'
+import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components'
 import WindowButtons from './WindowButtons'
 
 export default function ModalWindow({
@@ -37,13 +37,13 @@ export default function ModalWindow({
 								/>
 							</div>
 							<div className="flex items-center justify-center">
-								<h1
+								<Heading
 									slot="title"
 									className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
 									title="クリックしてURLをコピー"
 								>
 									{title}
-								</h1>
+								</Heading>
 							</div>
 						</div>
 						{children}

@@ -96,6 +96,7 @@ function AppIcon({ icon, title, onPress, dataTestId }: { icon: AppIconType; titl
 			className="group relative flex cursor-pointer flex-col items-center justify-center p-1 transition-all duration-300 hover:scale-95 sm:p-2"
 			onPress={onPress}
 			data-testid={dataTestId}
+			slot="drag"
 		>
 			<div className="flex size-10 items-center justify-center rounded-2xl transition-all duration-300 group-hover:bg-white/10 sm:size-12">
 				{React.cloneElement(icon, { className: 'size-8 text-white/90 group-hover:text-white transition-colors duration-300' })}
