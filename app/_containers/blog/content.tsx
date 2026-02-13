@@ -6,7 +6,8 @@ import PFButton from '@/components/ui/button/PFButton'
 import TextWithIcon from '@/components/ui/text/textWithIcon'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { FaEye } from 'react-icons/fa'
 
 type BlogContentProps = {
@@ -16,13 +17,19 @@ type BlogContentProps = {
 
 function BlogItem({ blog }: { blog: MicroCMSBlog }) {
 	const router = useRouter()
+	const [isPending, startTransition] = useTransition()
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
 			<Image src={blog.eyecatch.url} alt={blog.title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
 			<h2 className="max-w-full overflow-x-hidden pb-2 text-2xl font-bold overflow-ellipsis whitespace-nowrap">{blog.title}</h2>
-			<PFButton type="button" onPress={() => router.push(`/blog/${blog.id}`)} className="flex w-full items-center justify-center font-bold">
-				<TextWithIcon icon={<FaEye />} className="w-fit">
-					記事を見る
+			<PFButton
+				type="button"
+				isDisabled={isPending}
+				onPress={() => startTransition(() => router.push(`/blog/${blog.id}`))}
+				className="flex w-full items-center justify-center font-bold"
+			>
+				<TextWithIcon icon={isPending ? <AiOutlineLoading3Quarters className="animate-spin" /> : <FaEye />} className="w-fit">
+					{isPending ? '読み込み中...' : '記事を見る'}
 				</TextWithIcon>
 			</PFButton>
 		</section>
