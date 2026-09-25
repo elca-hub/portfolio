@@ -24,7 +24,13 @@ function IllustrationItem({ file, title, description }: { file: string; title: s
 				</Button>
 				<ModalWindow title={title} isOpen={isOpen} onClose={handleClose}>
 					<div className="flex items-center justify-center">
-						<Image src={`/illustrations/${file}.webp`} alt={title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
+						<Image
+							src={`/illustrations/${file}.webp`}
+							alt={title}
+							width={500}
+							height={500}
+							className="h-full w-full rounded-lg object-cover sm:h-1/2 sm:w-1/2"
+						/>
 					</div>
 				</ModalWindow>
 			</div>
