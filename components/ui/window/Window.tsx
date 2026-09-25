@@ -25,11 +25,10 @@ export default function Window({
 	const [isHidden, setIsHidden] = useState(false)
 	const [isClosed, setIsClosed] = useState(false)
 
+	// 閉じるモーションを再生してから親に通知したいので、ここでは状態を倒すだけにする。
+	// 実際の削除通知は AnimatePresence の onExitComplete で行う。
 	const handleClose = () => {
 		setIsClosed(true)
-		if (onClose) {
-			onClose()
-		}
 	}
 
 	const handleMinimize = () => {
@@ -62,57 +61,58 @@ export default function Window({
 		}
 	}
 
-	if (isClosed) {
-		return null
-	}
-
 	return (
-		// Windowが表示されるときのフェードイン。
+		// 表示時のフェードインと、closeボタンを押したときの縮小フェードアウト。
 		// Window自身に持たせることで、Dockから開いたとき・初回ロード時・全画面表示時のいずれでも効く。
-		<motion.div
-			initial={{ opacity: 0, y: 16 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.4, ease: 'easeOut' }}
-			className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-y-auto' : 'h-full w-full'} `}
-		>
-			<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
-				<div>
-					<WindowButtons
-						onClose={handleClose}
-						onMinimize={handleMinimize}
-						onMaximize={handleMaximize}
-						isEnabledMinimize={!isMaximized}
-						isEnabledMaximize={!isHidden}
-						isEnabledClose={!isMaximized}
-					/>
-				</div>
-				<div className="flex items-center justify-center">
-					<h1
-						onClick={handleTitleClick}
-						className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
-						title="クリックしてURLをコピー"
-					>
-						{title}
-					</h1>
-				</div>
-			</div>
-			{/* 初回表示時はアニメーションさせず、最小化・最小化解除のときだけアニメーションさせる */}
-			<AnimatePresence initial={false}>
-				{!isHidden && (
-					<motion.div
-						initial={{ height: 0, opacity: 0, y: -10 }}
-						animate={{ height: 'auto', opacity: 1, y: 0 }}
-						exit={{ height: 0, opacity: 0, y: -10 }}
-						transition={{
-							duration: 0.3,
-							ease: 'easeInOut',
-						}}
-						className="mx-auto h-full w-full max-w-[1200px] overflow-hidden p-4"
-					>
-						{children}
-					</motion.div>
-				)}
-			</AnimatePresence>
-		</motion.div>
+		<AnimatePresence onExitComplete={onClose}>
+			{!isClosed && (
+				<motion.div
+					initial={{ opacity: 0, y: 16 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.2, ease: 'easeIn' } }}
+					transition={{ duration: 0.4, ease: 'easeOut' }}
+					className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-y-auto' : 'h-full w-full'} `}
+				>
+					<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
+						<div>
+							<WindowButtons
+								onClose={handleClose}
+								onMinimize={handleMinimize}
+								onMaximize={handleMaximize}
+								isEnabledMinimize={!isMaximized}
+								isEnabledMaximize={!isHidden}
+								isEnabledClose={!isMaximized}
+							/>
+						</div>
+						<div className="flex items-center justify-center">
+							<h1
+								onClick={handleTitleClick}
+								className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
+								title="クリックしてURLをコピー"
+							>
+								{title}
+							</h1>
+						</div>
+					</div>
+					{/* 初回表示時はアニメーションさせず、最小化・最小化解除のときだけアニメーションさせる */}
+					<AnimatePresence initial={false}>
+						{!isHidden && (
+							<motion.div
+								initial={{ height: 0, opacity: 0, y: -10 }}
+								animate={{ height: 'auto', opacity: 1, y: 0 }}
+								exit={{ height: 0, opacity: 0, y: -10 }}
+								transition={{
+									duration: 0.3,
+									ease: 'easeInOut',
+								}}
+								className="mx-auto h-full w-full max-w-[1200px] overflow-hidden p-4"
+							>
+								{children}
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</motion.div>
+			)}
+		</AnimatePresence>
 	)
 }
