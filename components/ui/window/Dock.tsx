@@ -2,10 +2,10 @@
 
 import { AppIconType, AppType } from '@/const/appType'
 import React, { useState } from 'react'
-import { Button, Dialog, DialogTrigger, GridList, GridListItem, Heading, Modal, ModalOverlay, useDragAndDrop } from 'react-aria-components'
+import { Button, GridList, GridListItem, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 import { LuArrowRightToLine } from 'react-icons/lu'
-import { MdClose } from 'react-icons/md'
+import ModalWindow from './ModalWindow'
 
 interface DockProps {
 	apps: Record<string, AppType>
@@ -130,40 +130,27 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 
 			{/* Apps 一覧ポップアップボタン */}
 			<div className="relative">
-				<DialogTrigger isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
-					<AppIcon icon={<GrAppsRounded />} onPress={() => {}} dataTestId="app-list-trigger" />
-					<ModalOverlay className="absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-						<Modal isDismissable className="min-w-full sm:min-w-[600px]">
-							<Dialog className="mx-4 rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
-								<div className="mb-4 flex items-center justify-between">
-									<Heading slot="title" className="text-4xl font-bold text-white">
-										Apps
-									</Heading>
-									<Button slot="close" className="cursor-pointer transition-all duration-300 hover:scale-95">
-										<MdClose className="h-8 w-8 text-white/90 transition-colors duration-300 group-hover:text-white" />
-									</Button>
-								</div>
-								<GridList aria-label="Apps" layout="grid" className="grid auto-cols-max grid-flow-col items-end gap-4">
-									{appItems.map((app, index) => {
-										const Icon = app.icon
-										return (
-											<GridListItem key={index}>
-												<AppIcon
-													icon={Icon}
-													title={app.title}
-													onPress={() => {
-														onClick(app)
-														setIsModalOpen(false)
-													}}
-												/>
-											</GridListItem>
-										)
-									})}
-								</GridList>
-							</Dialog>
-						</Modal>
-					</ModalOverlay>
-				</DialogTrigger>
+				<AppIcon icon={<GrAppsRounded />} onPress={() => setIsModalOpen(true)} dataTestId="app-list-trigger" />
+				{/* Appのモーダルと同じウインドウ表現を使う */}
+				<ModalWindow title="Apps" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+					<GridList aria-label="Apps" layout="grid" className="grid auto-cols-max grid-flow-col items-end gap-4">
+						{appItems.map((app, index) => {
+							const Icon = app.icon
+							return (
+								<GridListItem key={index} textValue={app.title}>
+									<AppIcon
+										icon={Icon}
+										title={app.title}
+										onPress={() => {
+											onClick(app)
+											setIsModalOpen(false)
+										}}
+									/>
+								</GridListItem>
+							)
+						})}
+					</GridList>
+				</ModalWindow>
 			</div>
 
 			<div className="relative hidden sm:block">

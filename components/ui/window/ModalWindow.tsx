@@ -26,6 +26,9 @@ export default function ModalWindow({
 				/* 表示中はopacityを固定し、閉じるときだけフェードアウトさせる（表示時にフェードすると中のコンテンツが透けて見えるため） */
 				<MotionModalOverlay
 					isOpen
+					onOpenChange={(isOpen) => {
+						if (!isOpen) onClose?.()
+					}}
 					className="absolute inset-0 z-50 flex h-screen items-center justify-center bg-black/60 backdrop-blur-sm"
 					initial={{ opacity: 1 }}
 					animate={{ opacity: 1 }}
@@ -48,11 +51,7 @@ export default function ModalWindow({
 										/>
 									</div>
 									<div className="flex items-center justify-center">
-										<Heading
-											slot="title"
-											className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
-											title="クリックしてURLをコピー"
-										>
+										<Heading slot="title" className="text-2xl font-bold text-white">
 											{title}
 										</Heading>
 									</div>
