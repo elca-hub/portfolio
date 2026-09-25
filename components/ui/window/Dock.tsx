@@ -1,12 +1,15 @@
 'use client'
 
 import { AppIconType, AppType } from '@/const/appType'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { Button, GridList, GridListItem, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 import { LuArrowRightToLine } from 'react-icons/lu'
 import ModalWindow from './ModalWindow'
+
+// コンパクト化・解除でDockが伸縮するときの動き。バネで少しだけ余韻を残す。
+const DOCK_LAYOUT_TRANSITION = { type: 'spring' as const, stiffness: 300, damping: 32, mass: 0.8 }
 
 interface DockProps {
 	apps: Record<string, AppType>
@@ -77,7 +80,7 @@ function AppList({
 			selectionMode="multiple"
 			dragAndDropHooks={dragAndDropHooks}
 			layout="grid"
-			className="hidden auto-cols-max grid-flow-col items-end gap-2 sm:grid"
+			className="grid auto-cols-max grid-flow-col items-end gap-2"
 		>
 			{initialItems.map((item) => {
 				const Icon = item.icon
@@ -114,29 +117,53 @@ function AppIcon({ icon, title, onPress, dataTestId }: { icon: AppIconType; titl
 export default function Dock({ apps, activeApps, onClick, onReorder, className = '' }: DockProps) {
 	const appItems = Object.values(apps)
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	// ボタンを押した瞬間の状態。アプリ一覧の退場モーションはここを見て始まる。
 	const [isCompactMode, setIsCompactMode] = useState(false)
+	// Dock自身の見た目(幅・位置・縦並び)の状態。
+	// コンパクト化するときは、アプリ一覧が消え終わってから縮み始めたいので isCompactMode とは分けている。
+	const [isCollapsed, setIsCollapsed] = useState(false)
+
+	const handleToggleCompact = () => {
+		if (isCompactMode) {
+			// 解除時はDockが広がるのとアプリ一覧の登場を同時に始める
+			setIsCompactMode(false)
+			setIsCollapsed(false)
+			return
+		}
+		// コンパクト化時は退場モーションの完了(onExitComplete)を待つ
+		setIsCompactMode(true)
+	}
 
 	return (
-		// ロード時に画面外(下)からせり上がってくるモーションを付ける。
-		// コンパクト化のモーションは CSS transition が担当するが、
-		// transform は framer-motion が毎フレーム書き換えるため遷移対象から外す。
+		// ロード時に画面外(下)からせり上がってくるモーション。
+		// コンパクト化・解除にともなう幅と位置の変化は layout アニメーションに任せるため、
+		// CSS transition は border-radius だけを担当する。
 		<motion.div
+			layout
 			initial={{ y: '150%', opacity: 0 }}
 			animate={{ y: 0, opacity: 1 }}
-			transition={{ type: 'spring', stiffness: 260, damping: 30, delay: 0.2 }}
-			className={`fixed flex items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-3 shadow-lg backdrop-blur-xl transition-[width,border-radius,right,bottom] duration-500 sm:right-0 sm:bottom-0 ${className} ${isCompactMode ? 'w-fit flex-col sm:right-2 sm:bottom-2 sm:rounded-3xl' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'} right-2 bottom-2`}
+			transition={{ type: 'spring', stiffness: 260, damping: 30, delay: 0.2, layout: DOCK_LAYOUT_TRANSITION }}
+			className={`fixed flex items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-3 shadow-lg backdrop-blur-xl transition-[border-radius] duration-500 ease-out sm:right-0 sm:bottom-0 ${className} ${isCollapsed ? 'w-fit flex-col sm:right-2 sm:bottom-2 sm:rounded-3xl' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'} right-2 bottom-2`}
 		>
-			{!isCompactMode && (
-				<>
-					<AppList key={activeApps.map((app) => app.title).join('|')} initialItems={activeApps} onClick={onClick} onReorder={onReorder} />
+			<AnimatePresence initial={false} onExitComplete={() => setIsCollapsed(true)}>
+				{!isCompactMode && (
+					<motion.div
+						layout
+						initial={{ opacity: 0, scale: 0.85 }}
+						animate={{ opacity: 1, scale: 1, transition: { duration: 0.35, delay: 0.1, ease: [0.22, 1, 0.36, 1] } }}
+						exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2, ease: 'easeIn' } }}
+						className="hidden items-center gap-3 sm:flex"
+					>
+						<AppList key={activeApps.map((app) => app.title).join('|')} initialItems={activeApps} onClick={onClick} onReorder={onReorder} />
 
-					{/* 区切りの縦棒 */}
-					<div className="hidden h-10 w-px rounded-full bg-white/20 sm:block" />
-				</>
-			)}
+						{/* 区切りの縦棒 */}
+						<div className="h-10 w-px rounded-full bg-white/20" />
+					</motion.div>
+				)}
+			</AnimatePresence>
 
 			{/* Apps 一覧ポップアップボタン */}
-			<div className="relative">
+			<motion.div layout className="relative">
 				<AppIcon icon={<GrAppsRounded />} onPress={() => setIsModalOpen(true)} dataTestId="app-list-trigger" />
 				{/* Appのモーダルと同じウインドウ表現を使う */}
 				<ModalWindow title="Apps" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isCompact>
@@ -159,18 +186,14 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 						})}
 					</GridList>
 				</ModalWindow>
-			</div>
+			</motion.div>
 
-			<div className="relative hidden sm:block">
-				<div className={`transition-all duration-500 ${isCompactMode && 'rotate-180'}`}>
-					<AppIcon
-						icon={<LuArrowRightToLine />}
-						onPress={() => {
-							setIsCompactMode(!isCompactMode)
-						}}
-					/>
-				</div>
-			</div>
+			<motion.div layout className="relative hidden sm:block">
+				{/* 回転する要素自体に layout を持たせると projection が壊れるため、外側と内側で役割を分ける */}
+				<motion.div animate={{ rotate: isCompactMode ? 180 : 0 }} transition={{ type: 'spring', stiffness: 260, damping: 22 }}>
+					<AppIcon icon={<LuArrowRightToLine />} onPress={handleToggleCompact} dataTestId="dock-compact-trigger" />
+				</motion.div>
+			</motion.div>
 		</motion.div>
 	)
 }
