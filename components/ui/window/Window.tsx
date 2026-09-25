@@ -87,7 +87,7 @@ export default function Window({
 						<div className="flex items-center justify-center">
 							<h1
 								onClick={handleTitleClick}
-								className="cursor-pointer text-2xl font-bold text-white transition-opacity hover:opacity-70"
+								className="cursor-pointer text-2xl font-bold transition-opacity hover:opacity-70"
 								title="クリックしてURLをコピー"
 							>
 								{title}

@@ -10,7 +10,7 @@ function AboutSectionItem({ title, value }: { title: string; value: string }) {
 	return (
 		<div className="flex flex-col items-center justify-center gap-2">
 			<h2 className="text-2xl font-bold">{title}</h2>
-			<div className="text-md text-center text-gray-100">
+			<div className="text-md text-center">
 				<BudouXText text={value} />
 			</div>
 		</div>
@@ -20,7 +20,12 @@ function AboutSectionItem({ title, value }: { title: string; value: string }) {
 function ContactItem({ href, icon }: { href: string; icon: IconType }) {
 	const Icon = icon
 	return (
-		<a href={href} target="_blank" rel="noopener noreferrer" className="text-white transition-colors duration-300 hover:text-gray-300">
+		<a
+			href={href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className="text-slate-800 transition-colors duration-300 hover:text-slate-600 dark:text-white dark:hover:text-gray-300"
+		>
 			<Icon className="size-8" />
 		</a>
 	)
@@ -35,8 +40,8 @@ export default function AboutMeContent() {
 				</div>
 				<div className="flex flex-col items-start justify-center gap-2">
 					<h1 className="text-5xl font-bold">elca</h1>
-					<div className="text-md text-gray-100">Web Engineer</div>
-					<div className="text-md text-gray-100">
+					<div className="text-md">Web Engineer</div>
+					<div className="text-md">
 						<TextWithIcon icon={<FaBirthdayCake />}>2004/11/16</TextWithIcon>
 					</div>
 				</div>
@@ -60,7 +65,7 @@ export default function AboutMeContent() {
 
 			<section>
 				<h2 className="mb-4 text-center text-2xl font-bold">Comment</h2>
-				<p className="text-md text-center text-gray-100">
+				<p className="text-md text-center">
 					<BudouXText
 						text={`
               みなさんこんにちは、elcaです。

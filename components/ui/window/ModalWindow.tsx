@@ -41,7 +41,7 @@ export default function ModalWindow({
 					<Modal isDismissable className={`w-full max-w-[90dvw] ${isCompact ? 'sm:w-fit' : 'sm:min-w-[600px]'}`}>
 						{/* ウインドウごと動かす */}
 						<motion.div initial={{ y: 100 }} animate={{ y: 0 }} exit={{ y: 100 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
-							<Dialog className="max-h-[80svh] overflow-y-auto rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
+							<Dialog className="on-dark-surface max-h-[80svh] overflow-y-auto rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">
 								<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
 									<div>
 										<WindowButtons
@@ -54,7 +54,7 @@ export default function ModalWindow({
 										/>
 									</div>
 									<div className="flex items-center justify-center">
-										<Heading slot="title" className="text-2xl font-bold text-white">
+										<Heading slot="title" className="text-2xl font-bold">
 											{title}
 										</Heading>
 									</div>

@@ -35,7 +35,7 @@ function IllustrationItem({ file, title, description }: { file: string; title: s
 				</ModalWindow>
 			</div>
 			<h2 className="text-2xl font-bold">{title}</h2>
-			<p className="text-md text-center text-gray-100">{description}</p>
+			<p className="text-md text-center">{description}</p>
 		</section>
 	)
 }
@@ -73,8 +73,8 @@ export default function IllustrationsContent() {
 			</section>
 			<section>
 				<h2 className="mb-4 text-center text-2xl font-bold">使用ツール</h2>
-				<p className="text-md text-center text-gray-100">Clip Studio</p>
-				<p className="text-md text-center text-gray-100">iPad Pro 13インチ</p>
+				<p className="text-md text-center">Clip Studio</p>
+				<p className="text-md text-center">iPad Pro 13インチ</p>
 			</section>
 		</article>
 	)

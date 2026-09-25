@@ -3,6 +3,11 @@
 :root {
 	--background: #ffffff;
 	--foreground: #171717;
+	/* 本文・見出しの文字色。
+	   ライトモードの背景(bg-gray-300 + Windowのbg-black/20)では白系の文字が背景に溶けてしまうため暗くし、
+	   ダークモード(bg-slate-950)では逆に少し明るくして、どちらのモードでもコントラストを確保する。 */
+	--text-body: #1e293b;
+	--text-heading: #0f172a;
 }
 
 @theme {
@@ -19,6 +24,33 @@
 	:root {
 		--background: #0a0a0a;
 		--foreground: #ededed;
+		--text-body: #f8fafc;
+		--text-heading: #ffffff;
+	}
+}
+
+/* 本文と見出しの既定色。
+   base レイヤーに入れることで、個別に色のユーティリティクラス(text-white など)が
+   指定されている箇所はそちらが優先され、例外的な配色はそのまま残る。 */
+@layer base {
+	p {
+		color: var(--text-body);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: var(--text-heading);
+	}
+
+	/* 暗い面(モーダルの bg-black/60 など)の上に置く領域。
+	   ライトモードでも背景が暗いままなので、文字色は明るい側のトークンを使う。 */
+	.on-dark-surface {
+		--text-body: #f8fafc;
+		--text-heading: #ffffff;
 	}
 }
 

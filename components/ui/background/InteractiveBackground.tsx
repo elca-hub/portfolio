@@ -102,7 +102,7 @@ export function InteractiveBackground({ children, breathsPerMinute = 60 }: Inter
 	return (
 		// framer-motion 側のアニメーションも OS の「視差効果を減らす」設定に従わせる
 		<MotionConfig reducedMotion="user">
-			<div className="relative min-h-screen overflow-hidden bg-gray-300 text-slate-50 dark:bg-slate-950">
+			<div className="relative min-h-screen overflow-hidden bg-gray-300 text-slate-800 dark:bg-slate-950 dark:text-slate-50">
 				{/* 背景グラデーション。
 				    「呼吸」はこのレイヤー全体の opacity アニメーションで表現する。
 				    opacity は合成のみで完結するため、以前のように毎フレーム全画面を塗り直す必要がない。
