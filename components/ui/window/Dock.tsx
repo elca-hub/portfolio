@@ -134,7 +134,7 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 				{/* Appのモーダルと同じウインドウ表現を使う */}
 				<ModalWindow title="Apps" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isCompact>
 					{/* 横に並べきれない幅では折り返す */}
-					<GridList aria-label="Apps" layout="grid" className="grid grid-cols-2 items-end gap-4 sm:grid-cols-4">
+					<GridList aria-label="Apps" layout="grid" className="grid grid-cols-2 items-end justify-items-center gap-4 sm:grid-cols-4">
 						{appItems.map((app, index) => {
 							const Icon = app.icon
 							return (
