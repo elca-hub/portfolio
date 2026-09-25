@@ -55,22 +55,10 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 
 		// URLパラメータからウィンドウ名を取得
 		const windowParam = searchParams.get('window')
-		if (windowParam) {
-			const targetApp = appList.find((app) => app.title === windowParam)
-			if (targetApp) {
-				// すでに開いている場合は先頭に移動
-				const existingIndex = restoredWindows.findIndex((w) => w.title === targetApp.title)
-				if (existingIndex !== -1) {
-					// 既存のウィンドウを削除して先頭に追加
-					const reorderedWindows = [targetApp, ...restoredWindows.filter((w) => w.title !== targetApp.title)]
-					setWindows(reorderedWindows)
-					return
-				} else {
-					// 開いていない場合は先頭に追加
-					setWindows([targetApp, ...restoredWindows])
-					return
-				}
-			}
+		const targetApp = windowParam ? appList.find((app) => app.title === windowParam) : undefined
+		if (targetApp) {
+			// すでに開いている場合も含めて、対象のウィンドウを先頭に持ってくる
+			restoredWindows = [targetApp, ...restoredWindows.filter((w) => w.title !== targetApp.title)]
 		}
 
 		setWindows(restoredWindows)
@@ -107,7 +95,16 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 			<div className="flex w-full items-center justify-center">
 				<div className="mx-4 mt-10 mb-24 flex min-h-[calc(100vh-200px)] w-full max-w-[1200px] flex-col items-center justify-center gap-4 sm:mx-10 sm:mb-30">
 					{isInitialLoad ? (
-						<p className="text-4xl font-bold text-black/70 dark:text-white/70">読み込み中...</p>
+						/* 読み込みは一瞬で終わるため、すぐには出さない。
+						   全画面表示から戻ってきたときに文言が一瞬だけちらつくのを防ぐ。 */
+						<motion.p
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ duration: 0.3, delay: 0.4 }}
+							className="text-4xl font-bold text-black/70 dark:text-white/70"
+						>
+							読み込み中...
+						</motion.p>
 					) : windows.length === 0 ? (
 						<p className="text-4xl font-bold text-black/70 dark:text-white/70">下のDockからアプリを開いてみましょう</p>
 					) : (
