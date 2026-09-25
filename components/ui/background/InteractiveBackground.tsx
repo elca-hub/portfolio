@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { MotionConfig } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
 type InteractiveBackgroundProps = {
 	children: React.ReactNode
@@ -8,161 +9,136 @@ type InteractiveBackgroundProps = {
 	breathsPerMinute?: number
 }
 
-export function InteractiveBackground({ children, breathsPerMinute }: InteractiveBackgroundProps) {
-	const [position, setPosition] = useState({ x: 50, y: 50 })
-	const [intensity, setIntensity] = useState(0.5)
-	const [isMobile, setIsMobile] = useState(false)
-	const [isRandom, setIsRandom] = useState(false)
-	const [target, setTarget] = useState<{ x: number; y: number } | null>(null)
-	const [lastPointerAt, setLastPointerAt] = useState<number | null>(null)
+// ポインタ追従グラデーションの直径。vmax 基準にすることで、画面比率が変わっても見た目の大きさを揃える。
+const BLOB_SIZE_VMAX = 90
+// ポインタに追いつくまでの時間。追従に少しだけ遅れを持たせる。
+const POINTER_TRANSITION = 'transform 300ms ease-out'
+// アイドル時のゆっくりした移動。移動そのものは CSS transition に任せるので、
+// JS 側は「次のゴール」をこの間隔で決めるだけでよい。
+const IDLE_STEP_MS = 6000
+const IDLE_TRANSITION = `transform ${IDLE_STEP_MS}ms ease-in-out`
+// ポインタが止まってから自動移動に切り替わるまでの時間
+const IDLE_DELAY_MS = 10000
+// 動きを抑える設定のときの固定位置（画面中央）
+const CENTER_TRANSFORM = 'translate3d(50vw, 50vh, 0)'
 
-	// デバイスがスマートフォン（ポインタが粗いデバイス）かどうかを判定
+export function InteractiveBackground({ children, breathsPerMinute = 60 }: InteractiveBackgroundProps) {
+	const blobRef = useRef<HTMLDivElement>(null)
+
 	useEffect(() => {
-		if (typeof window === 'undefined') return
+		const blob = blobRef.current
+		if (!blob) return
 
-		const mediaQuery = window.matchMedia('(pointer: coarse)')
-		const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
-			setIsMobile(event.matches)
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+		// ポインタが粗いデバイス（スマートフォンなど）には追従先がないので、常に自動移動にする
+		const coarsePointer = window.matchMedia('(pointer: coarse)')
+
+		let frameId = 0
+		let idleTimerId = 0
+		let pendingTransform: string | null = null
+
+		const commit = () => {
+			frameId = 0
+			if (pendingTransform === null) return
+			blob.style.transform = pendingTransform
+			pendingTransform = null
 		}
 
-		// 初期判定
-		handleChange(mediaQuery)
-
-		// 監視（対応ブラウザのみ）
-		if (typeof mediaQuery.addEventListener === 'function') {
-			mediaQuery.addEventListener('change', handleChange)
-			return () => mediaQuery.removeEventListener('change', handleChange)
-		} else if (typeof mediaQuery.addListener === 'function') {
-			mediaQuery.addListener(handleChange)
-			return () => mediaQuery.removeListener(handleChange)
+		// 位置の更新は state ではなく DOM に直接書き込む。
+		// transform だけを動かすので、再レンダリングもレイアウトもペイントも発生せず、合成のみで済む。
+		const moveTo = (transform: string, transition: string) => {
+			blob.style.transition = transition
+			pendingTransform = transform
+			// pointermove は 1 フレームに複数回発火しうるため、書き込みは rAF で 1 回にまとめる
+			if (!frameId) frameId = requestAnimationFrame(commit)
 		}
-	}, [])
 
-	// PC ではポインタに追従させる（スマホの場合は無効）
-	useEffect(() => {
-		if (isMobile) return
+		const scheduleIdleMove = (delay: number) => {
+			window.clearTimeout(idleTimerId)
+			idleTimerId = window.setTimeout(() => {
+				// vw / vh で指定しておくと、ウインドウサイズが変わっても位置が破綻しない
+				moveTo(`translate3d(${Math.random() * 100}vw, ${Math.random() * 100}vh, 0)`, IDLE_TRANSITION)
+				scheduleIdleMove(IDLE_STEP_MS)
+			}, delay)
+		}
 
 		const handlePointerMove = (event: PointerEvent) => {
-			const x = (event.clientX / window.innerWidth) * 100
-			const y = (event.clientY / window.innerHeight) * 100
-
-			setPosition({ x, y })
-			setIsRandom(false)
-			setTarget(null) // 新しいカーソル位置を起点にしたいので一度リセット
-			setLastPointerAt(Date.now())
+			moveTo(`translate3d(${event.clientX}px, ${event.clientY}px, 0)`, POINTER_TRANSITION)
+			// 操作が続いている間は自動移動に切り替わらないよう、待ち時間を延長し続ける
+			scheduleIdleMove(IDLE_DELAY_MS)
 		}
 
-		window.addEventListener('pointermove', handlePointerMove)
+		// メディアクエリの変化でモードが変わるため、購読のやり直しをまとめて行う
+		const setup = () => {
+			window.removeEventListener('pointermove', handlePointerMove)
+			window.clearTimeout(idleTimerId)
+
+			if (reduceMotion.matches) {
+				moveTo(CENTER_TRANSFORM, 'none')
+				return
+			}
+
+			if (!coarsePointer.matches) {
+				window.addEventListener('pointermove', handlePointerMove)
+			}
+			scheduleIdleMove(coarsePointer.matches ? 0 : IDLE_DELAY_MS)
+		}
+
+		moveTo(CENTER_TRANSFORM, 'none')
+		setup()
+
+		reduceMotion.addEventListener('change', setup)
+		coarsePointer.addEventListener('change', setup)
 
 		return () => {
 			window.removeEventListener('pointermove', handlePointerMove)
+			reduceMotion.removeEventListener('change', setup)
+			coarsePointer.removeEventListener('change', setup)
+			window.clearTimeout(idleTimerId)
+			if (frameId) cancelAnimationFrame(frameId)
 		}
-	}, [isMobile])
-
-	// カーソルイベントから 10 秒経過したらランダム移動モードに切り替え
-	useEffect(() => {
-		// スマホは常にランダムモード
-		if (isMobile) {
-			setIsRandom(true)
-			// アイドル状態に入るので次のゴールはランダムに決める
-			setTarget(null)
-			return
-		}
-
-		// まだ一度もポインタが動いていない場合は何もしない
-		if (lastPointerAt === null) return
-
-		const timeoutId = window.setTimeout(() => {
-			setIsRandom(true)
-		}, 10000)
-
-		return () => {
-			window.clearTimeout(timeoutId)
-		}
-	}, [isMobile, lastPointerAt])
-
-	// ランダム移動モードの挙動（スマホ + PC のアイドル時）
-	useEffect(() => {
-		if (!isRandom) return
-
-		const intervalId = window.setInterval(() => {
-			setPosition((prev) => {
-				// ゴールが未設定なら現在位置を起点に新しいゴールを設定
-				let nextTarget = target
-				if (!nextTarget) {
-					nextTarget = {
-						x: Math.random() * 100,
-						y: Math.random() * 100,
-					}
-					setTarget(nextTarget)
-				}
-
-				const dx = nextTarget.x - prev.x
-				const dy = nextTarget.y - prev.y
-				const distance = Math.sqrt(dx * dx + dy * dy)
-
-				// ゴールに十分近づいたら、新しいゴールを設定
-				const threshold = 1 // 1% 以内まで来たら到達とみなす
-				if (distance < threshold) {
-					setTarget(null)
-					return prev
-				}
-
-				// 現在位置からゴール方向へ少しずつ移動
-				const stepRatio = 0.01 // 距離の 2% だけ進む（かなりゆっくり）
-				const stepX = (dx / distance) * distance * stepRatio
-				const stepY = (dy / distance) * distance * stepRatio
-
-				const nextX = Math.min(100, Math.max(0, prev.x + stepX))
-				const nextY = Math.min(100, Math.max(0, prev.y + stepY))
-
-				return { x: nextX, y: nextY }
-			})
-		}, 50) // 50ms ごとに少しずつゴールに向けて移動
-
-		return () => {
-			window.clearInterval(intervalId)
-		}
-	}, [isRandom, target])
-
-	// 1分間に x 回「呼吸」するように、グラデーションの強さを変化させる
-	useEffect(() => {
-		const bpm = breathsPerMinute ?? 60 // デフォルト60回/分
-		const frequencyHz = bpm / 60 // 1秒間あたりの回数
-
-		let frameId: number
-		const start = performance.now()
-
-		const animate = (time: number) => {
-			const elapsedSec = (time - start) / 1000
-			// 周波数 frequencyHz: sin(2π f t) を 0〜1 に正規化
-			const value = (Math.sin(2 * Math.PI * frequencyHz * elapsedSec) + 1) / 2
-			setIntensity(value)
-			frameId = requestAnimationFrame(animate)
-		}
-
-		frameId = requestAnimationFrame(animate)
-
-		return () => {
-			cancelAnimationFrame(frameId)
-		}
-	}, [breathsPerMinute])
+	}, [])
 
 	return (
-		<div className="relative min-h-screen overflow-hidden bg-gray-300 text-slate-50 dark:bg-slate-950">
-			<div
-				className="pointer-events-none fixed inset-0 opacity-70 transition-[background-position] duration-300 ease-out"
-				style={{
-					backgroundImage: `
-            radial-gradient(circle at ${position.x}% ${position.y}%, rgba(56, 189, 248, ${0.35 + 0.25 * intensity}), transparent 55%),
-            radial-gradient(circle at 0% 0%, rgba(94, 234, 212, ${0.15 + 0.15 * intensity}), transparent 60%),
-            radial-gradient(circle at 100% 100%, rgba(129, 140, 248, ${0.15 + 0.15 * intensity}), transparent 60%)
-          `,
-				}}
-			/>
-			{/* 横スクロールバーは出さない。また縦スクロールバーの出入りで幅が変わると
-			    Windowのフェードイン・縮小解除中に横ブレが起きるため、常に領域を確保しておく。 */}
-			<div className="absolute inset-0 z-10 overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]">{children}</div>
-		</div>
+		// framer-motion 側のアニメーションも OS の「視差効果を減らす」設定に従わせる
+		<MotionConfig reducedMotion="user">
+			<div className="relative min-h-screen overflow-hidden bg-gray-300 text-slate-50 dark:bg-slate-950">
+				{/* 背景グラデーション。
+				    「呼吸」はこのレイヤー全体の opacity アニメーションで表現する。
+				    opacity は合成のみで完結するため、以前のように毎フレーム全画面を塗り直す必要がない。
+				    opacity-70 はアニメーションが無効な場合（動きを減らす設定）の基準値も兼ねる。 */}
+				<div
+					aria-hidden
+					className="pointer-events-none fixed inset-0 overflow-hidden opacity-70"
+					style={{ animation: `breathe ${60 / breathsPerMinute}s ease-in-out infinite` }}
+				>
+					{/* 四隅の固定グラデーション。一度描いたら変化しない。 */}
+					<div
+						className="absolute inset-0"
+						style={{
+							backgroundImage: `
+								radial-gradient(circle at 0% 0%, rgba(94, 234, 212, 0.22), transparent 60%),
+								radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.22), transparent 60%)
+							`,
+						}}
+					/>
+					{/* ポインタ追従グラデーション。transform で動かすだけなので再ペイントが起きない。 */}
+					<div
+						ref={blobRef}
+						className="absolute top-0 left-0 will-change-transform"
+						style={{
+							width: `${BLOB_SIZE_VMAX}vmax`,
+							height: `${BLOB_SIZE_VMAX}vmax`,
+							marginLeft: `${-BLOB_SIZE_VMAX / 2}vmax`,
+							marginTop: `${-BLOB_SIZE_VMAX / 2}vmax`,
+							backgroundImage: 'radial-gradient(circle closest-side, rgba(56, 189, 248, 0.47), transparent)',
+						}}
+					/>
+				</div>
+				{/* 横スクロールバーは出さない。また縦スクロールバーの出入りで幅が変わると
+				    Windowのフェードイン・縮小解除中に横ブレが起きるため、常に領域を確保しておく。 */}
+				<div className="absolute inset-0 z-10 overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]">{children}</div>
+			</div>
+		</MotionConfig>
 	)
 }

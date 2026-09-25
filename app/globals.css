@@ -22,6 +22,32 @@
 	}
 }
 
+/* 背景グラデーションの「呼吸」。
+   opacity だけを動かすので合成のみで完結し、全画面の再ペイントが発生しない。
+   アニメーションが無効なときは要素側の opacity がそのまま基準値として使われる。 */
+@keyframes breathe {
+	0%,
+	100% {
+		opacity: 0.52;
+	}
+	50% {
+		opacity: 0.96;
+	}
+}
+
+/* OSで「視差効果を減らす」を有効にしている場合は、装飾のための動きを止める。
+   framer-motion 側は MotionConfig の reducedMotion="user" が担当する。 */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
 /* 横スクロールは常に抑制する。
    Windowのフェードイン・縮小解除中に一瞬だけ横スクロールバーが出ると、
    その分だけ表示幅が変わって画面がブレるため。 */
