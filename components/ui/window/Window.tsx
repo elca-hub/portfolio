@@ -91,10 +91,12 @@ export default function Window({
 					</h1>
 				</div>
 			</div>
-			<AnimatePresence>
+			{/* 初回表示時はアニメーションさせず、最小化・最小化解除のときだけアニメーションさせる */}
+			<AnimatePresence initial={false}>
 				{!isHidden && (
 					<motion.div
-						initial={{ height: 'auto', opacity: 1, y: 1 }}
+						initial={{ height: 0, opacity: 0, y: -10 }}
+						animate={{ height: 'auto', opacity: 1, y: 0 }}
 						exit={{ height: 0, opacity: 0, y: -10 }}
 						transition={{
 							duration: 0.3,
