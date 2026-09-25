@@ -20,11 +20,14 @@ export default function BlogItemModalPresentation({ blog, content }: BlogItemMod
 	const [isOpen, setIsOpen] = useState(true)
 	const handleClose = () => {
 		setIsOpen(false)
+	}
+	// フェードアウトが終わってから前のページに戻る
+	const handleExited = () => {
 		router.back()
 	}
 
 	return (
-		<ModalWindow title={blog.title} isOpen={isOpen} onClose={handleClose}>
+		<ModalWindow title={blog.title} isOpen={isOpen} onClose={handleClose} onExited={handleExited}>
 			<BlogItemThumbnail eyecatch={blog.eyecatch} alt={blog.title} />
 			{content}
 		</ModalWindow>

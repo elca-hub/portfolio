@@ -18,11 +18,14 @@ export default function WorkProjectPresentation({ projectName, readme }: WorkPro
 	const [isOpen, setIsOpen] = useState(true)
 	const handleClose = () => {
 		setIsOpen(false)
+	}
+	// フェードアウトが終わってから前のページに戻る
+	const handleExited = () => {
 		router.back()
 	}
 
 	return (
-		<ModalWindow title={projectName} isOpen={isOpen} onClose={handleClose}>
+		<ModalWindow title={projectName} isOpen={isOpen} onClose={handleClose} onExited={handleExited}>
 			{readme}
 		</ModalWindow>
 	)
