@@ -4,6 +4,7 @@ import Notification from '@/components/ui/Notification'
 import Dock from '@/components/ui/window/Dock'
 import Window from '@/components/ui/window/Window'
 import { AppType } from '@/const/appType'
+import { motion } from 'framer-motion'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -111,15 +112,13 @@ export default function HomePresentation({ apps, defaultActiveApps }: homeProps)
 						<p className="text-4xl font-bold text-black/70 dark:text-white/70">下のDockからアプリを開いてみましょう</p>
 					) : (
 						windows.map((window) => (
-							<Window
-								key={window.title}
-								title={window.title}
-								onClose={() => handleCloseWindow(window.title)}
-								redirectUrl={window.redirectUrl}
-								onCopy={handleCopy}
-							>
-								{window.content}
-							</Window>
+							// Dockでの並び替えに合わせて、Windowが元の位置から移動するモーションを付ける。
+							// layout="position" にすることで、中身がスケールで歪まず位置のみが遷移する。
+							<motion.div key={window.title} layout="position" transition={{ type: 'spring', stiffness: 400, damping: 40 }} className="w-full">
+								<Window title={window.title} onClose={() => handleCloseWindow(window.title)} redirectUrl={window.redirectUrl} onCopy={handleCopy}>
+									{window.content}
+								</Window>
+							</motion.div>
 						))
 					)}
 				</div>
