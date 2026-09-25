@@ -160,7 +160,9 @@ export function InteractiveBackground({ children, breathsPerMinute }: Interactiv
           `,
 				}}
 			/>
-			<div className="absolute inset-0 z-10 overflow-y-auto">{children}</div>
+			{/* 横スクロールバーは出さない。また縦スクロールバーの出入りで幅が変わると
+			    Windowのフェードイン・縮小解除中に横ブレが起きるため、常に領域を確保しておく。 */}
+			<div className="absolute inset-0 z-10 overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]">{children}</div>
 		</div>
 	)
 }

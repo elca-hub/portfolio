@@ -71,7 +71,7 @@ export default function Window({
 					animate={{ opacity: 1, y: 0 }}
 					exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.2, ease: 'easeIn' } }}
 					transition={{ duration: 0.4, ease: 'easeOut' }}
-					className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-y-auto' : 'h-full w-full'} `}
+					className={`relative rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg backdrop-blur-xl ${isMaximized ? 'absolute inset-0 h-full w-full overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]' : 'h-full w-full'} `}
 				>
 					<div className="mb-4 grid grid-cols-2 sm:grid-cols-3">
 						<div>

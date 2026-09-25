@@ -22,6 +22,14 @@
 	}
 }
 
+/* 横スクロールは常に抑制する。
+   Windowのフェードイン・縮小解除中に一瞬だけ横スクロールバーが出ると、
+   その分だけ表示幅が変わって画面がブレるため。 */
+html,
+body {
+	overflow-x: hidden;
+}
+
 /* スクロールバーのスタイリング */
 /* WebKit系ブラウザ（Chrome、Safari、Edge）用 */
 ::-webkit-scrollbar {
