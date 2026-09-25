@@ -12,6 +12,7 @@ export default function ModalWindow({
 	isOpen = false,
 	onClose,
 	onExited,
+	isCompact = false,
 }: {
 	title: string
 	children: React.ReactNode
@@ -19,6 +20,8 @@ export default function ModalWindow({
 	onClose?: () => void
 	/** フェードアウトが完了した後に呼ばれる（画面遷移などはここで行う） */
 	onExited?: () => void
+	/** 中身の大きさに合わせた幅にする（Apps一覧のような小さいコンテンツ向け） */
+	isCompact?: boolean
 }) {
 	return (
 		<AnimatePresence onExitComplete={onExited}>
@@ -35,7 +38,7 @@ export default function ModalWindow({
 					exit={{ opacity: 0 }}
 					transition={{ duration: 0.3, ease: 'easeInOut' }}
 				>
-					<Modal isDismissable className="w-full max-w-[90dvw] sm:min-w-[600px]">
+					<Modal isDismissable className={`max-w-[90dvw] ${isCompact ? 'w-fit' : 'w-full sm:min-w-[600px]'}`}>
 						{/* ウインドウごと動かす */}
 						<motion.div initial={{ y: 100 }} animate={{ y: 0 }} exit={{ y: 100 }} transition={{ duration: 0.3, ease: 'easeInOut' }}>
 							<Dialog className="max-h-[80svh] overflow-y-auto rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg sm:mx-0">

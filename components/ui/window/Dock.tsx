@@ -132,8 +132,9 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 			<div className="relative">
 				<AppIcon icon={<GrAppsRounded />} onPress={() => setIsModalOpen(true)} dataTestId="app-list-trigger" />
 				{/* Appのモーダルと同じウインドウ表現を使う */}
-				<ModalWindow title="Apps" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-					<GridList aria-label="Apps" layout="grid" className="grid auto-cols-max grid-flow-col items-end gap-4">
+				<ModalWindow title="Apps" isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isCompact>
+					{/* 横に並べきれない幅では折り返す */}
+					<GridList aria-label="Apps" layout="grid" className="grid grid-cols-2 items-end gap-4 sm:grid-cols-4">
 						{appItems.map((app, index) => {
 							const Icon = app.icon
 							return (
