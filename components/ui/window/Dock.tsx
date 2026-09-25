@@ -1,6 +1,7 @@
 'use client'
 
 import { AppIconType, AppType } from '@/const/appType'
+import { motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { Button, GridList, GridListItem, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
@@ -116,8 +117,14 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 	const [isCompactMode, setIsCompactMode] = useState(false)
 
 	return (
-		<div
-			className={`fixed flex items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-3 shadow-lg backdrop-blur-xl transition-all duration-500 sm:right-0 sm:bottom-0 ${className} ${isCompactMode ? 'w-fit flex-col sm:right-2 sm:bottom-2 sm:rounded-3xl' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'} right-2 bottom-2`}
+		// ロード時に画面外(下)からせり上がってくるモーションを付ける。
+		// コンパクト化のモーションは CSS transition が担当するが、
+		// transform は framer-motion が毎フレーム書き換えるため遷移対象から外す。
+		<motion.div
+			initial={{ y: '150%', opacity: 0 }}
+			animate={{ y: 0, opacity: 1 }}
+			transition={{ type: 'spring', stiffness: 260, damping: 30, delay: 0.2 }}
+			className={`fixed flex items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-3 shadow-lg backdrop-blur-xl transition-[width,border-radius,right,bottom] duration-500 sm:right-0 sm:bottom-0 ${className} ${isCompactMode ? 'w-fit flex-col sm:right-2 sm:bottom-2 sm:rounded-3xl' : 'flex-row sm:w-full sm:rounded-t-3xl sm:rounded-b-none'} right-2 bottom-2`}
 		>
 			{!isCompactMode && (
 				<>
@@ -164,6 +171,6 @@ export default function Dock({ apps, activeApps, onClick, onReorder, className =
 					/>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
