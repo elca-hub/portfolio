@@ -102,7 +102,7 @@ export default function Window({
 							duration: 0.3,
 							ease: 'easeInOut',
 						}}
-						className="mx-auto h-full w-full max-w-[1200px] p-4"
+						className="mx-auto h-full w-full max-w-[1200px] overflow-hidden p-4"
 					>
 						{children}
 					</motion.div>
