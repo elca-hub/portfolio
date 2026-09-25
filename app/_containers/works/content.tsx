@@ -28,7 +28,7 @@ function WorkItem({
 			<div className="relative h-[30vh] w-full overflow-hidden rounded-lg">
 				<Image src={`/works/${projectName}/title.webp`} alt={title} width={500} height={500} className="h-full w-full object-cover" />
 			</div>
-			<p className="text-md text-center">{description}</p>
+			<p className="text-md text-center text-gray-100">{description}</p>
 			<div className="flex w-full items-center justify-center gap-4">
 				<PFButton type="button" isDisabled={isPending} onPress={() => startTransition(() => onOpenDetail(projectName))}>
 					{isPending ? '読み込み中...' : '詳細を見る'}
