@@ -1,10 +1,11 @@
+import { fetchBlogs } from '@/action/blog/featch'
 import { apps } from '@/const/apps'
 import { works } from '@/const/works'
 import type { MetadataRoute } from 'next'
 
 const domain = 'https://portfolio.elca-web.com'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const ret: MetadataRoute.Sitemap = [
 		{
 			url: domain,
@@ -33,6 +34,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			lastModified: new Date(),
 			changeFrequency: 'monthly',
 			priority: 0.3,
+		})
+	})
+
+	// ブログ別の登録
+	const AbsoluteUrl = (eyecatchName: string) => {
+		if (eyecatchName.charAt(0) !== '/') {
+			return eyecatchName
+		}
+
+		return `${domain}${eyecatchName}`
+	}
+
+	const blogs = await fetchBlogs()
+
+	blogs.blogs.forEach((blog) => {
+		ret.push({
+			url: `${domain}${apps.blog.redirectUrl}/${blog.id}`,
+			lastModified: new Date(),
+			changeFrequency: 'monthly',
+			priority: 0.4,
+			images: [AbsoluteUrl(blog.eyecatch.url)],
 		})
 	})
 
