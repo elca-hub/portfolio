@@ -8,13 +8,13 @@ export const defaultComponents: CustomComponents = {
 	p: ({ children, ...props }) => {
 		if (typeof children === 'string') {
 			return (
-				<p className="mb-4 text-lg text-gray-100" {...props}>
+				<p className="mb-4 text-lg text-white" {...props}>
 					<BudouXText text={children as string} />
 				</p>
 			)
 		}
 		return (
-			<p className="mb-4 text-lg text-gray-100" {...props}>
+			<p className="mb-4 text-lg text-white" {...props}>
 				{children}
 			</p>
 		)
@@ -60,7 +60,7 @@ export const defaultComponents: CustomComponents = {
 		</blockquote>
 	),
 	code: ({ children, ...props }) => (
-		<code className="rounded bg-gray-200 px-1 py-0.5" {...props}>
+		<code className="rounded bg-gray-200 px-1 py-0.5 text-amber-900" {...props}>
 			{children}
 		</code>
 	),
