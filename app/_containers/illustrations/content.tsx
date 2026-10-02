@@ -77,7 +77,7 @@ export default function IllustrationsContent() {
 					<IllustrationItem key={illustration.title} {...illustration} />
 				))}
 			</section>
-			<section>
+			<section className="mt-4">
 				<h2 className="mb-4 text-center text-2xl font-bold">使用ツール</h2>
 				<p className="text-md text-center text-gray-100">Clip Studio</p>
 				<p className="text-md text-center text-gray-100">iPad Pro 13インチ</p>
