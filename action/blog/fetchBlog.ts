@@ -10,6 +10,11 @@ export async function fetchBlog(blogId: string): Promise<PFResponse<MicroCMSBlog
 			endpoint: 'blogs',
 			contentId: blogId,
 		})
+
+		if (blog.eyecatch === undefined) {
+			blog.eyecatch = { url: '/blogs/default-header.webp' }
+		}
+
 		return PFResponse.success(blog)
 	} catch (error) {
 		return PFResponse.error(error as Error)
