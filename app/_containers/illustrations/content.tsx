@@ -55,7 +55,7 @@ export default function IllustrationsContent() {
 		{
 			file: '3',
 			title: 'ほえー',
-			description: '現アイコンです。手の指と指の間のラインを、本来の線の色とは異なり、やや肌色に近い色に変えてあるのがちょっと工夫した点。',
+			description: '旧アイコンです。手の指と指の間のラインを、本来の線の色とは異なり、やや肌色に近い色に変えてあるのがちょっと工夫した点。',
 		},
 		{
 			file: '4',

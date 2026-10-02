@@ -31,7 +31,7 @@ export default function AboutMeContent() {
 		<article className="flex flex-col items-center justify-center gap-8">
 			<section className="flex flex-col items-center justify-center gap-10 sm:flex-row">
 				<div className="size-50 overflow-hidden rounded-full">
-					<Image src="/icon.png" alt="About Me" width={600} height={600} className="h-full w-full object-cover" />
+					<Image src="/icon.jpg" alt="About Me" width={600} height={600} className="h-full w-full object-cover" />
 				</div>
 				<div className="flex flex-col items-start justify-center gap-2">
 					<h1 className="text-5xl font-bold">elca</h1>
