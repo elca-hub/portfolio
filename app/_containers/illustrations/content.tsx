@@ -62,6 +62,12 @@ export default function IllustrationsContent() {
 			title: 'ベー',
 			description: 'なんとなく横顔描いてたらいい感じに描けました。横の状態からベロを出すのがとても難しい...まだまだ研究しないとですね。',
 		},
+		{
+			file: '5',
+			title: 'ピース',
+			description:
+				'元々はGopherの擬人化でしたが、途中からウルフヘアに目覚めたのでそのまま突っ走りました。ついでに色塗りは適当なので重箱の隅をつつかずとも粗が見つかります。',
+		},
 	]
 
 	return (

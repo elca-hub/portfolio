@@ -6,6 +6,6 @@ export type MicroCMSBlog = {
 	title: string
 	publishedAt: Date
 	updatedAt: Date
-	eyecatch: MicroCMSEyecatch
+	eyecatch: MicroCMSEyecatch | undefined
 	category?: MicroCMSCategory
 }

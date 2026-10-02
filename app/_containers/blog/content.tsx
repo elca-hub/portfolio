@@ -20,8 +20,14 @@ function BlogItem({ blog }: { blog: MicroCMSBlog }) {
 	const [isPending, startTransition] = useTransition()
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
-			<Image src={blog.eyecatch.url} alt={blog.title} width={500} height={500} className="h-full w-full rounded-lg object-cover" />
-			<h2 className="max-w-full overflow-x-hidden pb-2 text-2xl font-bold overflow-ellipsis whitespace-nowrap">{blog.title}</h2>
+			<Image
+				src={blog.eyecatch?.url ?? '/blogs/default-header.webp'}
+				alt={blog.title}
+				width={500}
+				height={500}
+				className="h-full w-full rounded-lg object-cover"
+			/>
+			<h2 className="h-full max-w-full overflow-x-hidden text-2xl font-bold overflow-ellipsis whitespace-nowrap">{blog.title}</h2>
 			<PFButton
 				type="button"
 				isDisabled={isPending}

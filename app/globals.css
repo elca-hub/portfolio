@@ -30,6 +30,7 @@
 	100% {
 		opacity: 0.52;
 	}
+
 	50% {
 		opacity: 0.96;
 	}
@@ -98,6 +99,17 @@ body {
 * {
 	scrollbar-width: thin;
 	scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+@layer utilities {
+	.hidden-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-with: none;
+	}
+
+	.hidden-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 *:hover {
