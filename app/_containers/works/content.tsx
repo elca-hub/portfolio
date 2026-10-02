@@ -5,6 +5,7 @@ import TextWithIcon from '@/components/ui/text/textWithIcon'
 import { works } from '@/const/works'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
 import { FaGithub } from 'react-icons/fa'
 
 function WorkItem({
@@ -20,6 +21,7 @@ function WorkItem({
 	githubUrl?: string
 	onOpenDetail: (projectName: string) => void
 }) {
+	const [isPending, startTransition] = useTransition()
 	return (
 		<section className="flex flex-col items-center justify-center gap-2">
 			<h3 className="text-2xl font-bold">{title}</h3>
@@ -28,8 +30,8 @@ function WorkItem({
 			</div>
 			<p className="text-md text-center text-gray-100">{description}</p>
 			<div className="flex w-full items-center justify-center gap-4">
-				<PFButton type="button" onPress={() => onOpenDetail(projectName)}>
-					詳細を見る
+				<PFButton type="button" isDisabled={isPending} onPress={() => startTransition(() => onOpenDetail(projectName))}>
+					{isPending ? '読み込み中...' : '詳細を見る'}
 				</PFButton>
 				{githubUrl && (
 					<PFButton href={githubUrl}>
