@@ -18,6 +18,15 @@ export async function fetchBlogs(
 		},
 	})
 
+	blogs.contents.forEach((b) => {
+		if (b.eyecatch !== undefined) {
+			return b
+		}
+
+		b.eyecatch = { url: '/blogs/default-header.webp' }
+		return b
+	})
+
 	return {
 		blogs: blogs.contents,
 		totalCount: blogs.totalCount ?? 0,

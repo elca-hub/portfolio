@@ -55,12 +55,18 @@ export default function IllustrationsContent() {
 		{
 			file: '3',
 			title: 'ほえー',
-			description: '現アイコンです。手の指と指の間のラインを、本来の線の色とは異なり、やや肌色に近い色に変えてあるのがちょっと工夫した点。',
+			description: '旧アイコンです。手の指と指の間のラインを、本来の線の色とは異なり、やや肌色に近い色に変えてあるのがちょっと工夫した点。',
 		},
 		{
 			file: '4',
 			title: 'ベー',
 			description: 'なんとなく横顔描いてたらいい感じに描けました。横の状態からベロを出すのがとても難しい...まだまだ研究しないとですね。',
+		},
+		{
+			file: '5',
+			title: 'ピース',
+			description:
+				'元々はGopherの擬人化でしたが、途中からウルフヘアに目覚めたのでそのまま突っ走りました。ついでに色塗りは適当なので重箱の隅をつつかずとも粗が見つかります。',
 		},
 	]
 
@@ -71,7 +77,7 @@ export default function IllustrationsContent() {
 					<IllustrationItem key={illustration.title} {...illustration} />
 				))}
 			</section>
-			<section>
+			<section className="mt-4">
 				<h2 className="mb-4 text-center text-2xl font-bold">使用ツール</h2>
 				<p className="text-md text-center text-gray-100">Clip Studio</p>
 				<p className="text-md text-center text-gray-100">iPad Pro 13インチ</p>

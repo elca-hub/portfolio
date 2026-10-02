@@ -8,34 +8,34 @@ export const defaultComponents: CustomComponents = {
 	p: ({ children, ...props }) => {
 		if (typeof children === 'string') {
 			return (
-				<p className="text-md mb-4 text-gray-300" {...props}>
+				<p className="mb-4 text-lg text-white" {...props}>
 					<BudouXText text={children as string} />
 				</p>
 			)
 		}
 		return (
-			<p className="text-md mb-4 text-gray-300" {...props}>
+			<p className="mb-4 text-lg text-white" {...props}>
 				{children}
 			</p>
 		)
 	},
 	a: ({ children, href, ...props }) => (
-		<a href={href} className="text-blue-600 underline hover:text-blue-800" target="_blank" rel="noopener noreferrer" {...props}>
+		<a href={href} className="text-blue-300 underline hover:text-blue-600" target="_blank" rel="noopener noreferrer" {...props}>
 			{children}
 		</a>
 	),
 	h1: ({ children, ...props }) => (
-		<h1 className="mb-4 text-5xl font-bold" {...props}>
+		<h1 className="m-6 text-5xl font-bold" {...props}>
 			<BudouXText text={children as string} />
 		</h1>
 	),
 	h2: ({ children, ...props }) => (
-		<h2 className="mb-3 text-4xl font-bold" {...props}>
+		<h2 className="m-5 text-4xl font-bold" {...props}>
 			<BudouXText text={children as string} />
 		</h2>
 	),
 	h3: ({ children, ...props }) => (
-		<h3 className="mb-2 text-xl font-bold" {...props}>
+		<h3 className="mb-4 text-xl font-bold" {...props}>
 			<BudouXText text={children as string} />
 		</h3>
 	),
@@ -50,7 +50,7 @@ export const defaultComponents: CustomComponents = {
 		</ol>
 	),
 	li: ({ children, ...props }) => (
-		<li className="mb-1" {...props}>
+		<li className="mb-1 text-lg" {...props}>
 			{children}
 		</li>
 	),
@@ -60,7 +60,7 @@ export const defaultComponents: CustomComponents = {
 		</blockquote>
 	),
 	code: ({ children, ...props }) => (
-		<code className="rounded bg-gray-200 px-1 py-0.5" {...props}>
+		<code className="rounded bg-gray-200 px-1 py-0.5 text-amber-900" {...props}>
 			{children}
 		</code>
 	),
