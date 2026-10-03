@@ -1,4 +1,4 @@
-export type AppIconType = React.ReactElement<{ className?: string }>
+export type AppIconType = React.ReactNode
 
 export type AppType = {
 	title: string

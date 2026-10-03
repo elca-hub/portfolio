@@ -2,7 +2,7 @@
 
 import { AppIconType, AppType } from '@/const/appType'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, GridList, GridListItem, useDragAndDrop } from 'react-aria-components'
 import { GrAppsRounded } from 'react-icons/gr'
 import { LuArrowRightToLine } from 'react-icons/lu'
@@ -107,7 +107,10 @@ function AppIcon({ icon, title, onPress, dataTestId }: { icon: AppIconType; titl
 			data-testid={dataTestId}
 		>
 			<div className="flex size-10 items-center justify-center rounded-2xl transition-all duration-300 group-hover:bg-white/10 sm:size-12">
-				{React.cloneElement(icon, { className: 'size-8 text-white/90 group-hover:text-white transition-colors duration-300' })}
+				{/* サーバーから渡されたアイコンは、画面遷移後に遅延参照(lazy)として届くことがあり、
+				    cloneElement すると type が undefined の要素になってしまう(本番環境のみ)。
+				    そのため要素を複製せず、外側の要素からスタイルを当てる。 */}
+				<span className="flex size-8 text-white/90 transition-colors duration-300 group-hover:text-white [&>svg]:size-full">{icon}</span>
 			</div>
 			{title && <span className="text-lg text-white/90">{title}</span>}
 		</Button>
