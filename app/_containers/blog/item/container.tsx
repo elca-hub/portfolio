@@ -32,7 +32,7 @@ export default async function BlogItemContainer({ blogId, isModal = false }: { b
 		<BlogItemModalPresentation blog={blog} content={<div className="text-white">{contentConverted}</div>} />
 	) : (
 		<>
-			<HeadContent title={`${blog.title} | Blog`} des={markdown} />
+			<HeadContent title={`${blog.title} | Blog`} des={markdown} image={blog.eyecatch.url} />
 			<BlogItemPresentation blog={blog} content={contentConverted} />
 		</>
 	)
